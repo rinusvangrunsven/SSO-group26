@@ -1,0 +1,326 @@
+---
+title: "Assignment 1"
+author: "Rinus van Grunsven (st.number 10755373)"
+date: "17 September 2022"
+output: pdf_document
+fontsize: 11pt
+highlight: tango
+---
+
+## \textcolor{blue}{Exercises}
+
+### Exercise 1.1
+
+The data that is being used in the exercise is retrieved via the following command:
+# ```{r}
+# data_read_1 = read.table("/Users/rinusvangrunsven/Documents/Study/UvA/SSO/week2/birthweight.txt",header=TRUE)
+# ```
+```{r}
+data_read_1 = read.table("./birthweight.txt",header=TRUE)
+```
+
+**(a)** 
+Below are the histogram, boxplot, and QQ-plot of the data. 
+
+```{r}
+par(mfrow=c(1,3));hist(data_read_1$birthweight, main="Histogram birthweight");boxplot(data_read_1$birthweight, main="Boxplot birthweight");qqnorm(data_read_1$birthweight, main="QQ-plot birthweight")
+```
+The figures above all show indications of a normal distribution: the histogram is symmetrical and bell-shaped, the boxplot has roughly equally distanced whiskers, and the qq-plot has an almost straight line from the bottom left to top right corner.
+
+Below a summary of the data
+```{r}
+summary(data_read_1)
+```
+
+The mean, rounded to three decimals
+```{r}
+m = round(mean(data_read_1$birthweight),2)
+m
+```
+
+**(b)** 
+```{r}
+mu=0.2
+n = length(data_read_1$birthweight); n # calculates the length
+s = round(sd(data_read_1$birthweight), 3); s # calculates standard deviation
+t = round(qt(0.95,df=length(data_read_1$birthweight)-1),3); t   # calculates test statistic
+ci = round(c(m-t*s/sqrt(n),m+t*s/sqrt(n)), 3); ci # 90% confidence interval
+```
+
+
+The length is: `r length(data_read_1$birthweight)`. This is calculated with the following formula:
+```{r}
+n = length(data_read_1$birthweight)
+n
+```
+
+The standard deviation is: `r format(sd(data_read_1$birthweight), digits = 2)`. This is calculated with the following formula:
+```{r}
+s = round(sd(data_read_1$birthweight), 3)
+s
+```
+
+The test statistic is: `r qt(0.95,df=length(data_read_1$birthweight)-1)`. This is calculated with the following formula:
+```{r}
+t = round(qt(0.95,df=length(data_read_1$birthweight)-1),3)
+t
+```
+
+The confidence interval is then calculated with the formula: c(m-t*s/sqrt(n),m+t*s/sqrt(n)) 
+
+```{r}
+round(c(m-t*s/sqrt(n),m+t*s/sqrt(n)), 3)
+```
+
+**(c)** 
+H0: mean birthweight is equal or smaller than 2800
+H1: mean birthweight is bigger than 2800
+```{r}
+t.test(data_read_1$birthweight,mu=2800,alt="g") 
+```
+
+The p-value is smaller than 0,05. This means that there is enough statistical evidence to reject H0 and to state that H1 is true.
+
+**(d)** 
+It's different because in b) we calculated a 90% confidence interval while the 
+T-test calculated a 95% confidence interval.
+It is one-sided because we wanted to check if the mean birthweight is bigger than 2800.
+In order to check this, we are interested in the one value and the rest of the values (this goes until infinity).
+(check better explanation given in the lecture!)
+
+
+
+### Exercise 1.4
+
+The following data is being used for this exercise:
+```{r}
+data_read_4 = read.table("./austen.txt",header=TRUE)
+```
+
+**(a)** 
+unclear by whom Sense and Emma are written. Sand1 is written by Austen and Sand2 is written by an admirer.
+Our guess is that Sense and Emma ar written by Austen as well and we will use this assumption throughout the other excercises also. 
+The presumed goal (at least that's what we think) is to check to what extend the novels are all written in the 
+same way. This is done by checking if the words are evenly distributed/proportionally used. A test for homogeneity
+would be the most suitable option. 
+Another option would be to run a test for homogeneity and see if the results show a difference between the Austen-columns 
+(sense, emma, and sand1) on one side, and the admirer-clumn (sand2) on the other hand. 
+
+**(b)** 
+```{r}
+sense = data_read_4$Sense
+emma = data_read_4$Emma
+sand1 = data_read_4$Sand1
+x=as.data.frame(matrix(c(sense, emma, sand1),ncol=3,nrow=6)) 
+dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("sense","emma", "sand1")) 
+x
+```
+```{r}
+z = chisq.test(x)
+z
+```
+
+# p-value (0,1609) > 5% so not reject H0; this means that there isn't sufficient evidence to state that there's a 
+# dependency or the distribution is non the same amongst row-variables. This means that Austen was not consistent in her writing.
+# (is this last sentence correct?)
+
+```{r}
+z$expected
+z$observed
+X2=sum((z$observed-z$expected)^2/z$expected)
+X2
+```
+```{r}
+1-pchisq(X2,df=(6-1)*(3-1)) # same is the same as the p-value we got from the Chi-squared test.
+residuals(z) 
+```
+ 
+
+**(c)** 
+<!-- sand2 = data_read_4$Sand2 -->
+<!-- x=as.data.frame(matrix(c(sense, emma, sand1, sand2),ncol=4,nrow=6))  -->
+<!-- dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("sense","emma", "sand1", "sand2"))  -->
+<!-- x -->
+<!-- z = chisq.test(x) -->
+<!-- z -->
+<!-- # p-value (0,1208) > 5% so not reject H0; -->
+<!-- z$expected -->
+<!-- z$observed -->
+<!-- X2=sum((z$observed-z$expected)^2/z$expected) -->
+<!-- X2 -->
+<!-- 1-pchisq(X2,df=(6-1)*(4-1)) -->
+<!-- residuals(z) -->
+
+<!-- # check if correct with just two columns -->
+<!-- sand2 = data_read_4$Sand2 -->
+<!-- x=as.data.frame(matrix(c(sand1, sand2),ncol=2,nrow=6))  -->
+<!-- dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("sand1", "sand2"))  -->
+<!-- x -->
+<!-- z = chisq.test(x) -->
+<!-- z -->
+<!-- # p-value (0,1308) > 5% so not reject H0; -->
+<!-- z$expected -->
+<!-- z$observed -->
+<!-- X2=sum((z$observed-z$expected)^2/z$expected) -->
+<!-- X2 -->
+<!-- 1-pchisq(X2,df=(6-1)*(4-1)) -->
+<!-- residuals(z) -->
+
+
+
+## Introduction to R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax 
+for authoring HTML, PDF, and MS Word documents. R Markdown files permit 
+you to interweave R code with ordinary text to produce well-formatted 
+data analysis reports that are easy to modify. The R Markdown file itself 
+shows the readers exactly how you got the results in your report.
+For more details on using R Markdown 
+see [http://rmarkdown.rstudio.com](http://rmarkdown.rstudio.com).
+
+When you click the **Knit** button, a document will be generated that 
+includes both content as well as the output of any embedded R code chunks 
+within the document. For inline R code, surround code with back ticks and r. 
+R replaces inline code with its results. For example, two plus one is `r 2+1`;
+for the build-in R dataset `cars`, there were `r nrow(cars)` 
+cars studied. You can embed an R code chunk like this:
+
+### Figures
+
+You can also embed plots, for example:
+
+```{r,echo=FALSE,fig.height=3.5}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to 
+prevent printing of the R code that generated the plot. Use knitr options 
+to style the output of a chunk. Place options in brackets above the chunk.
+Other options with the defaults are: the `eval=FALSE` option just displays 
+the R code (and does not run it); `warning=TRUE` whether to display 
+warnings; `tidy=TRUE` wraps long code so it does not run off the page.
+
+You can control the size and placement of figures. For example, 
+you can put two figures (or more) next to each other. 
+Use `par(mfrow=c(n,m))` to create `n` by `m` plots in one picture in R.
+You can adjust the proportions of figures by using the `fig.width` 
+and `fig.height` chunk options. These are specified in inches, 
+and will be automatically scaled down to fit within the handout margin.
+Chunk option `fig.align`  takes values `left`, `right`, or `center` 
+(to align figures in the output document).
+
+```{r,fig.margin = TRUE,fig.width=6,fig.height=3,fig.align="center"}
+par(mfrow=c(1,2)); x1=rnorm(50); hist(x1); qqnorm(x1)
+```
+
+You can arrange for figures to span across the entire page by using 
+the `fig.fullwidth` chunk option. 
+
+```{r,fig.fullwidth=TRUE,fig.height=3}
+plot(iris$Sepal.Length,iris$Petal.Length,xlab="Sepal.Length",ylab="Petal.Length")
+```
+
+More about chunk options can be found at [\textcolor{blue}{https://yihui.name/knitr/options/}](https://yihui.name/knitr/options/).
+
+### Equations
+
+You can also include \LaTeX\ expessions/equations in your report:
+inline $\frac{d}{dx}\left(\int_{0}^{x} f(u)\,du\right)=f(x)$ and 
+in the display mode:
+\[
+\frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x).
+\]
+To possibly avoid \LaTeX\ expressions in you report 
+(you do not really need \LaTeX\ for your reports), 
+remove this part (part **Equations**) and try to knit 
+your Rmd-file. 
+
+### Footnotes
+
+Here is the use of a footnote^[This is a footnote.]. 
+
+<!-- ### Images -->
+<!-- Want an image? This will do it.  -->
+<!-- To depict an image (say, `my_image.jpg` which should be in your current working directory), use this command  -->
+
+<!-- ![caption for my image](my_image.jpg) -->
+
+### Tables
+
+Want a table? This will create one (note that the separators 
+*do not* have to be aligned).
+
+Table Header  | Second Header
+------------- | -------------
+Table Cell    | Cell 2
+Cell 3        | Cell 4 
+
+
+You can also make table by using knit's `kable` function:
+
+```{r echo=FALSE, results='asis'}
+library(knitr)
+kable(mtcars[1:5,],caption="A knit kable.")
+```
+
+### Block quote
+> This will create a block quote, 
+> if you want one.
+
+### Verbatim
+```
+This text is displayed verbatim/preformatted.
+```
+
+### Links
+Links: http://example.com, [in-text link to Google](http://google.com),
+[linked phrase](http://example.com).
+
+### Italicized and embolded text
+- Single asterisks italicize text *like this*. 
+- Double asterisks embolden text **like this**.
+
+One more way: _italic_ and __bold__.
+
+***
+
+
+## \textcolor{blue}{Exercises}
+
+### Exercise 1
+
+**(i)** Here are some consequitive R-commands.
+```{r}
+x=rep(c("A","B"),each=5); x
+sample(x)
+x=rnorm(100)
+```
+Now the same code chunk but with all the output collapsed into signle block.
+```{r, collapse=TRUE}
+x=rep(c("A","B"),each=5); x
+sample(x)
+x=rnorm(100)
+```
+
+**(ii)** Below we perform a one sample t-test for the artificial date 
+(that we generated ourselves).
+```{r}
+mu=0.2
+x=rnorm(100,mu,1) # creating artificial data
+t.test(x,mean=0)   # t.test(x,alternative=c("two.sided"),conf.level=0.95,mu=10)
+```
+
+**(iii)** We often do not need to report the whole output of R-commands, 
+only certain values of the output. For example, below we perform 
+a two-sample t-test and report only the (appropriately rounded) values 
+of t-statistics and the p-pavue.
+
+```{r}
+mu=0;nu=0.5
+x=rnorm(50,mu,1); y=rnorm(50,nu,1) # creating artificial data
+ttest=t.test(x,y) 
+```
+
+The value of t-statistics in the above evaluation is  
+`r round(ttest[[1]],2)` and the p-value is `r round(ttest[[3]],4)`.
+  
