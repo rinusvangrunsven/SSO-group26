@@ -79,14 +79,11 @@ H1: mean birthweight is bigger than 2800
 t.test(data_read_1$birthweight,mu=2800,alt="g") 
 ```
 
-The p-value is smaller than 0,05. This means that there is enough statistical evidence to reject H0 and to state that H1 is true.
+The p-value is smaller than 0,05. This means that there is enough statistical evidence to reject H0 and thus to state that H1 is true.
 
 **(d)** 
-It's different because in b) we calculated a 90% confidence interval while the 
-T-test calculated a 95% confidence interval.
-It is one-sided because we wanted to check if the mean birthweight is bigger than 2800.
-In order to check this, we are interested in the one value and the rest of the values (this goes until infinity).
-(check better explanation given in the lecture!)
+It's different because in b) we calculated a confidence interval with a 90% confidence level, while the T-test that was conducted at c) calculated a confidence interval with a 95%  confidence level. A confidence interval is a range of values that has a upper and lower bound below and above the mean of your statistics. The population parameter that you are trying to find would have to fall in this range based on the confidence level. A confidence level is the degree of certainty that the population value would fall in this range. The more you are certain that the population parameter will fall in this range, the wider the range will get. So a 90% confidence level will have a smaller range and thus a smaller confidence interval than a 95% confidence level would have. 
+It is one-sided because we wanted to check if the mean birthweight is bigger than 2800. Therefore, the upper bound of the confidence interval does not have a value but goes to infinity as it does not matter which value it is. The null hypothesis is rejected as long as the value is bigger than the lower bound.
 
 
 
@@ -98,38 +95,46 @@ data_read_4 = read.table("./austen.txt",header=TRUE)
 ```
 
 **(a)** 
-unclear by whom Sense and Emma are written. Sand1 is written by Austen and Sand2 is written by an admirer.
-Our guess is that Sense and Emma ar written by Austen as well and we will use this assumption throughout the other excercises also. 
-The presumed goal (at least that's what we think) is to check to what extend the novels are all written in the 
-same way. This is done by checking if the words are evenly distributed/proportionally used. A test for homogeneity
-would be the most suitable option. 
-Another option would be to run a test for homogeneity and see if the results show a difference between the Austen-columns 
-(sense, emma, and sand1) on one side, and the admirer-clumn (sand2) on the other hand. 
+It is unclear by whom Sense and Emma are written. For the other two novels it is not: Sand1 is written by Austen and Sand2 is written by an admirer. Our guess is that Sense and Emma ar written by Austen as well and we will use this assumption while conducting the other exercises also. 
+Furthermore, we presumed that the test would be performed in order to check to what extend the novels are all written in the same way. 
+According to us, a test for homogeneity is the most suitable option to use. This test is able to check if the distribution of words is evenly spread across columns when comparing rows with each other. The distribution should be the same across rows in case the writing style is the same in all the novels.  
+<!-- Another option would be to run a test for independence and see if the results show a difference between the Austen-columns  -->
+<!-- (sense, emma, and sand1) on one side, and the admirer-column (sand2) on the other hand.  -->
+<!-- I'm not sure if the two sentences above are correct -->
 
 **(b)** 
+We start with making a matrix of only the novels that Austen wrote. The matrix is shown below.
 ```{r}
-sense = data_read_4$Sense
-emma = data_read_4$Emma
-sand1 = data_read_4$Sand1
-x=as.data.frame(matrix(c(sense, emma, sand1),ncol=3,nrow=6)) 
-dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("sense","emma", "sand1")) 
+Sense = data_read_4$Sense
+Emma = data_read_4$Emma
+Sand1 = data_read_4$Sand1
+x=as.data.frame(matrix(c(Sense, Emma, Sand1),ncol=3,nrow=6)) 
+dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("Sense","Emma", "Sand1")) 
 x
 ```
+Now that we only have the data of Austens novels, we can run a chi-squared test to see if Austen herself was consistent in her writing style or not. We will use the following hypotheses:
+H0: the distribution of words is the same for each column 
+H1: the distribution of words is not the same for each column
+This is performed in R with the command below
+
 ```{r}
 z = chisq.test(x)
 z
 ```
 
-# p-value (0,1609) > 5% so not reject H0; this means that there isn't sufficient evidence to state that there's a 
-# dependency or the distribution is non the same amongst row-variables. This means that Austen was not consistent in her writing.
-# (is this last sentence correct?)
+The p-value is 0.1308 and this is greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for each column. As a result of this, we conclude that Austen was consistent in her writing style. 
 
+Shall we include the parts below?
 ```{r}
 z$expected
 z$observed
 X2=sum((z$observed-z$expected)^2/z$expected)
 X2
 ```
+
+
+
+And this also?
 ```{r}
 1-pchisq(X2,df=(6-1)*(3-1)) # same is the same as the p-value we got from the Chi-squared test.
 residuals(z) 
@@ -137,13 +142,26 @@ residuals(z)
  
 
 **(c)** 
-<!-- sand2 = data_read_4$Sand2 -->
-<!-- x=as.data.frame(matrix(c(sense, emma, sand1, sand2),ncol=4,nrow=6))  -->
-<!-- dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("sense","emma", "sand1", "sand2"))  -->
-<!-- x -->
-<!-- z = chisq.test(x) -->
-<!-- z -->
-<!-- # p-value (0,1208) > 5% so not reject H0; -->
+Since we are going to use all data, we have to add the data from the novel written by the admirer to our current matrix. This is done with the code below.
+```{r}
+Sand2 = data_read_4$Sand2
+x=as.data.frame(matrix(c(Sense, Emma, Sand1, Sand2),ncol=4,nrow=6))
+dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("Sense","Emma", "Sand1", "Sand2"))
+x
+```
+The matrix now consists of data from all novels. We will again use a chi-squared test in order to test whether the admirer was successful in imitating Austen's style. We run a test for homogeneity since we test if the admirer was successful in imitating Austen's writing style. The hypotheses will therefore be:
+H0: the distribution of words is the same for each column 
+H1: the distribution of words is not the same for each column
+The chi-squared test is performed in R with the command below
+
+```{r}
+z = chisq.test(x)
+z
+```
+
+The p-value is 0.1208 and this is greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for each column. As a result of this, we conclude that the admirer was successful in imitating Austen's writing style.
+
+Shall we include the code below as well?
 <!-- z$expected -->
 <!-- z$observed -->
 <!-- X2=sum((z$observed-z$expected)^2/z$expected) -->
@@ -151,14 +169,23 @@ residuals(z)
 <!-- 1-pchisq(X2,df=(6-1)*(4-1)) -->
 <!-- residuals(z) -->
 
-<!-- # check if correct with just two columns -->
-<!-- sand2 = data_read_4$Sand2 -->
-<!-- x=as.data.frame(matrix(c(sand1, sand2),ncol=2,nrow=6))  -->
-<!-- dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("sand1", "sand2"))  -->
-<!-- x -->
-<!-- z = chisq.test(x) -->
-<!-- z -->
-<!-- # p-value (0,1308) > 5% so not reject H0; -->
+We also ran a second test in order to confirm if our conclusion stated above. For this second test we only took one novel of Austen and compared this with the one from the admirer. A new matrix was made for this, see below.
+
+```{r}
+sand2 = data_read_4$Sand2
+x=as.data.frame(matrix(c(Sand1, Sand2),ncol=2,nrow=6))
+dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("Sand1", "Sand2"))
+x
+```
+A chi-squared test was conducted on these numbers. The result is shown below.
+```{r}
+z = chisq.test(x)
+z
+```
+
+The p-value is 0.1308 and this is again greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for each column. As a result of this, we conclude that the admirer was successful in imitating Austen's writing style. 
+
+Shall we include the code below as well?
 <!-- z$expected -->
 <!-- z$observed -->
 <!-- X2=sum((z$observed-z$expected)^2/z$expected) -->
