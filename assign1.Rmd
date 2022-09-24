@@ -7,8 +7,6 @@ fontsize: 11pt
 highlight: tango
 ---
 
-## \textcolor{blue}{Exercises}
-
 ### Exercise 1.1
 
 The data that is being used in the exercise is retrieved via the following command:
@@ -20,11 +18,14 @@ data_read_1 = read.table("./birthweight.txt", header=TRUE)
 Below are the histogram, boxplot, and QQ-plot of the data. 
 
 ```{r}
-par(mfrow=c(1,3));hist(data_read_1$birthweight, main="Histogram birthweight");boxplot(data_read_1$birthweight, main="Boxplot birthweight");qqnorm(data_read_1$birthweight, main="QQ-plot birthweight")
+par(mfrow=c(1,3))
+hist(data_read_1$birthweight, main="Histogram birthweight")
+boxplot(data_read_1$birthweight, main="Boxplot birthweight")
+qqnorm(data_read_1$birthweight, main="QQ-plot birthweight")
 ```
 The figures above all show indications of a normal distribution: the histogram is symmetrical and bell-shaped, the boxplot has roughly equally distanced whiskers, and the qq-plot has an almost straight line from the bottom left to top right corner.
 
-Below a summary of the data
+Below a numeric summary of the data:
 ```{r}
 summary(data_read_1)
 ```
@@ -87,31 +88,39 @@ It is one-sided because we wanted to check if the mean birthweight is bigger tha
 
 **a)** 
 
-`r weather = read.table(file="weather.txt", header=TRUE)`
+Below are the histogram, boxplot, and QQ-plot of the weather data. 
 
-```{r, fig.height=3, fig.width=6}
+```{r}
+weather = read.table(file="weather.txt", header=TRUE)
 hum=weather$humidity
 tem=weather$temperature
 
-par(mfrow=c(1,2))
-hist(hum, main="Histogram of humidity")
-hist(tem, main="Histogram of temperature")
-qqnorm(hum, main="Normal Q-Q of humidity")
-qqnorm(tem, main="Normal Q-Q of temperature") 
+par(mfrow=c(2,3))
+hist(hum, main="Histogram humidity")
+boxplot(hum, main="Boxplot humidity")
+qqnorm(hum, main="QQ-plot humidity")
+hist(tem, main="Histogram temperature")
+boxplot(tem, main="Boxplot temperature")
+qqnorm(tem, main="QQ-plot temperature")
 ```
 
-`r summary(hum)` `r summary(tem)`
+Next, a numeric summary of the humidity and temperature data:
+```{r}
+summary(weather)
+```
+
 
 **b)**
 
+We'll revisit the QQ plot of the temperature:
+
 ```{r}
-qqnorm(hum, main="Normal Q-Q of humidity")
-qqnorm(tem, main="Normal Q-Q of temperature") 
+qqnorm(tem, main="QQ-plot of temperature") 
 ```
 
 With this plot we can see that the temperature data does not follow a
 pattern seen with normal distributed samples. It is not a straight line
-in the Q-Q plot.
+in the Q-Q plot. It looks like the data is too spread out, meaning fat tails in the normal distribution.
 
 **c)**
 
