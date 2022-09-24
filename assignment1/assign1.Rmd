@@ -14,7 +14,7 @@ The data that is being used in the exercise is retrieved via the following comma
 data_read_1 = read.table("./birthweight.txt", header=TRUE)
 ```
 
-**(a)** 
+**a)** 
 Below are the histogram, boxplot, and QQ-plot of the data. 
 
 ```{r}
@@ -36,7 +36,7 @@ m = round(mean(data_read_1$birthweight),2)
 m
 ```
 
-**(b)** 
+**b)** 
 ```{r}
 mu=0.2
 n = length(data_read_1$birthweight); n # calculates the length
@@ -70,7 +70,7 @@ The confidence interval is then calculated with the formula: c(m-t*s/sqrt(n),m+t
 round(c(m-t*s/sqrt(n),m+t*s/sqrt(n)), 3)
 ```
 
-**(c)** 
+**c)** 
 H0: mean birthweight is equal or smaller than 2800
 H1: mean birthweight is bigger than 2800
 ```{r}
@@ -79,7 +79,7 @@ t.test(data_read_1$birthweight,mu=2800,alt="g")
 
 The p-value is smaller than 0,05. This means that there is enough statistical evidence to reject H0 and thus to state that H1 is true.
 
-**(d)** 
+**d)** 
 It's different because in b) we calculated a confidence interval with a 90% confidence level, while the T-test that was conducted at c) calculated a confidence interval with a 95%  confidence level. A confidence interval is a range of values that has a upper and lower bound below and above the mean of your statistics. The population parameter that you are trying to find would have to fall in this range based on the confidence level. A confidence level is the degree of certainty that the population value would fall in this range. The more you are certain that the population parameter will fall in this range, the wider the range will get. So a 90% confidence level will have a smaller range and thus a smaller confidence interval than a 95% confidence level would have. 
 It is one-sided because we wanted to check if the mean birthweight is bigger than 2800. Therefore, the upper bound of the confidence interval does not have a value but goes to infinity as it does not matter which value it is. The null hypothesis is rejected as long as the value is bigger than the lower bound.
 
@@ -215,7 +215,7 @@ The following data is being used for this exercise:
 data_read_4 = read.table("./austen.txt",header=TRUE)
 ```
 
-**(a)** 
+**a)** 
 It is unclear by whom Sense and Emma are written. For the other two novels it is not: Sand1 is written by Austen and Sand2 is written by an admirer. Our guess is that Sense and Emma ar written by Austen as well and we will use this assumption while conducting the other exercises also. 
 Furthermore, we presumed that the test would be performed in order to check to what extend the novels are all written in the same way. 
 According to us, a test for homogeneity is the most suitable option to use. This test is able to check if the distribution of words is evenly spread across columns when comparing rows with each other. The distribution should be the same across rows in case the writing style is the same in all the novels.  
@@ -223,7 +223,7 @@ According to us, a test for homogeneity is the most suitable option to use. This
 <!-- (sense, emma, and sand1) on one side, and the admirer-column (sand2) on the other hand.  -->
 <!-- I'm not sure if the two sentences above are correct -->
 
-**(b)** 
+**b)** 
 We start with making a matrix of only the novels that Austen wrote. The matrix is shown below.
 ```{r}
 Sense = data_read_4$Sense
@@ -262,7 +262,7 @@ residuals(z)
 ```
  
 
-**(c)** 
+**c)** 
 Since we are going to use all data, we have to add the data from the novel written by the admirer to our current matrix. This is done with the code below.
 ```{r}
 Sand2 = data_read_4$Sand2
