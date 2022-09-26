@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1"
-author: "Rinus van Grunsven (st.number 10755373), Florens Douwes (11254483)"
+author: "Rinus van Grunsven (10755373), Florens Douwes (11254483), Imad Lotfi (14651610)"
 date: "24 September 2022"
 output: pdf_document
 fontsize: 11pt
