@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1"
-author: "Rinus van Grunsven (10755373), Florens Douwes (11254483), Imad Lotfi (14651610)"
+author: "Group 26. Rinus van Grunsven (10755373), Florens Douwes (11254483), Imad Lotfi (14651610)"
 date: "26 September 2022"
 output: pdf_document
 fontsize: 11pt
@@ -9,15 +9,11 @@ highlight: tango
 
 ### Exercise 1.1
 
-The data that is being used in the exercise is retrieved via the following command:
-```{r}
-data_read_1 = read.table("./birthweight.txt", header=TRUE)
-```
-
 **a)** 
 Below are the histogram, boxplot, and QQ-plot of the data. 
 
 ```{r}
+data_read_1 = read.table("./birthweight.txt", header=TRUE)
 par(mfrow=c(1,3))
 hist(data_read_1$birthweight, main="Histogram birthweight", xlab="Gram")
 boxplot(data_read_1$birthweight, main="Boxplot birthweight", ylab="Gram")
@@ -30,41 +26,44 @@ Below a numeric summary of the data:
 summary(data_read_1)
 ```
 
-TODO: describe shapiro wilk
+The Shapiro-Wilk test is a test for normality when the distribution P is unknown. That is the case right now. The hypotheses are:
+H0: P is a normal distribution.
+H1: P is not a normal distribution.
+
 ```{r}
 shapiro.test(data_read_1$birthweight)
 ```
 
+The Shapiro-Wilk test is always a left-sided test (see lecture 3, slide 10) and H0 is rejected for small values of W. It now is 0.996, which is not small, so we will not reject H0. That means that the data is normally distributed.
 
 The mean, rounded to three decimals
 ```{r}
-m = round(mean(data_read_1$birthweight),2)
-m
+m = round(mean(data_read_1$birthweight),2); m
 ```
 
 **b)** 
-The length is: `r length(data_read_1$birthweight)`:
+
+We use the standard formula $\bar X \pm t_{a/2, n-1} \frac{s}{\sqrt{n}}$.
+
+The length is:
 ```{r}
-n = length(data_read_1$birthweight)
-n
+n = length(data_read_1$birthweight); n
 ```
 
-The standard deviation is: `r format(sd(data_read_1$birthweight), digits = 2)`:
+The standard deviation is:
 ```{r}
-s = round(sd(data_read_1$birthweight), 3)
-s
+s = round(sd(data_read_1$birthweight), 3); s
 ```
 
-The test statistic is: `r qt(0.95,df=length(data_read_1$birthweight)-1)`:
+The test statistic is: 
 ```{r}
-t = round(qt(0.95,df=length(data_read_1$birthweight)-1),3)
-t
+t = round(qt(0.95,df=n-1),3); t
 ```
 
-The confidence interval is then calculated with the formula: c(m-t*s/sqrt(n),m+t*s/sqrt(n)) 
+The confidence interval is then calculated with:
 
 ```{r}
-round(c(m-t*s/sqrt(n),m+t*s/sqrt(n)), 3)
+round(c(m - t * s / sqrt(n), m + t * s / sqrt(n)), 3)
 ```
 
 **c)** 
@@ -77,7 +76,7 @@ $$
 H_0: \text{mean birthweight} > 2800
 $$
 
-Then, we can use a t-test:
+Then, we can use a t-test. We are going to use a t-test since we concluded in question a) that the data looks to be normally distributed and the standard deviation is unknown (see slide 22, lecture 2).
 
 ```{r}
 t.test(data_read_1$birthweight,mu=2800,alt="g") 
@@ -107,12 +106,10 @@ p_hat
 
 The 99%-confidence interval for the population proportion p can be derived as follows:
 
-TODO latex code
-
 $$
 \hat p - E < p < \hat p + E \text{ where }E = z_{a/2}\sqrt{\frac{\hat p \hat q}{n}}
 $$
-where $p$ = population proportion, $\hat p$ = sample proportionn $n$ = number of sample values, $E$ = margin of error, and $z_{a/2}$ is the z-score.
+where $p$ = population proportion, $\hat p$ = sample proportion, $n$ = number of sample values, $E$ = margin of error, and $z_{a/2}$ is the z-score.
 
 Using the following R code we can get the results of this formula:
 
@@ -131,8 +128,6 @@ So to conclude, the 99%-confidence interval for p is [0.617, 0.783]
 **c)**
 
 In order to test the null hypothesis that the fraction is equal to 75%, we will use a binomial test. As null hypothesis, we take $H_0: p = 0.75$ and as alternative hypothesis $H_1: p \ne 0.75$.
-
-TODO dubbelchecken
 
 ```{r}
 binom.test(x, n, p = 0.75)
@@ -209,7 +204,7 @@ This means that the true mean is (with a confidence interval of 90%) between 47.
 
 This means that the margin of error should be a maximum 2% of humidity (that is, a value of 2).
 
-n must satisfy the following formula, which we can rewrite:
+The confidence interval margin must then be below 2. We can rewrite the standard formula (lecture 2 slide 14):
 $$
 t_{a/2, n-1}\frac{s}{\sqrt{n}} \le E = 
 \sqrt{n} \ge \frac{t_{a/2, n-1^s}}{E} \approx 
@@ -257,23 +252,6 @@ z
 
 The p-value is 0.1609 and this is greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for each column. As a result of this, we conclude that Austen was consistent in her writing style. 
 
-Shall we include the parts below?
-```{r}
-z$expected
-z$observed
-X2=sum((z$observed-z$expected)^2/z$expected)
-X2
-```
-
-
-
-And this also?
-```{r}
-1-pchisq(X2,df=(6-1)*(3-1)) # same is the same as the p-value we got from the Chi-squared test.
-residuals(z) 
-```
- 
-
 **c)** 
 Since we are going to use all data, we have to add the data from the novel written by the admirer to our current matrix. This process is also described in the book Mathematical Statistics and Data Analysis by John A. Rice. We can do that with the following R code, where we sum the other three authors word count's with the imitator's:
 
@@ -297,34 +275,3 @@ z
 
 The p-value is 0.2363 and this is greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for both columns. As a result of this, we conclude that the admirer was successful in imitating Austen's writing style.
 
-Shall we include the code below as well?
-<!-- z$expected -->
-<!-- z$observed -->
-<!-- X2=sum((z$observed-z$expected)^2/z$expected) -->
-<!-- X2 -->
-<!-- 1-pchisq(X2,df=(6-1)*(4-1)) -->
-<!-- residuals(z) -->
-
-We also ran a second test in order to confirm our conclusion stated above. For this second test we only took one novel of Austen and compared this with the one from the admirer. A new matrix was made for this, see below.
-
-```{r}
-sand2 = data_read_4$Sand2
-x=as.data.frame(matrix(c(Sand1, Sand2),ncol=2,nrow=6))
-dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("Sand1", "Sand2"))
-x
-```
-A chi-squared test was conducted on these numbers. The result is shown below.
-```{r}
-z = chisq.test(x)
-z
-```
-
-The p-value is 0.1308 and this is again greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for each column. As a result of this, we conclude that the admirer was successful in imitating Austen's writing style. 
-
-Shall we include the code below as well?
-<!-- z$expected -->
-<!-- z$observed -->
-<!-- X2=sum((z$observed-z$expected)^2/z$expected) -->
-<!-- X2 -->
-<!-- 1-pchisq(X2,df=(6-1)*(4-1)) -->
-<!-- residuals(z) -->
