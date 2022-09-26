@@ -1,7 +1,7 @@
 ---
 title: "Assignment 1"
 author: "Rinus van Grunsven (10755373), Florens Douwes (11254483), Imad Lotfi (14651610)"
-date: "24 September 2022"
+date: "26 September 2022"
 output: pdf_document
 fontsize: 11pt
 highlight: tango
@@ -19,16 +19,22 @@ Below are the histogram, boxplot, and QQ-plot of the data.
 
 ```{r}
 par(mfrow=c(1,3))
-hist(data_read_1$birthweight, main="Histogram birthweight")
-boxplot(data_read_1$birthweight, main="Boxplot birthweight")
+hist(data_read_1$birthweight, main="Histogram birthweight", xlab="Gram")
+boxplot(data_read_1$birthweight, main="Boxplot birthweight", ylab="Gram")
 qqnorm(data_read_1$birthweight, main="QQ-plot birthweight")
 ```
-The figures above all show indications of a normal distribution: the histogram is symmetrical and bell-shaped, the boxplot has roughly equally distanced whiskers, and the qq-plot has an almost straight line from the bottom left to top right corner.
+The figures above all show indications of a normal distribution: the histogram is symmetrical and bell-shaped, the boxplot has roughly equally distanced whiskers, and the QQ-plot has an almost straight line from the bottom left to top right corner.
 
 Below a numeric summary of the data:
 ```{r}
 summary(data_read_1)
 ```
+
+TODO: describe shapiro wilk
+```{r}
+shapiro.test(data_read_1$birthweight)
+```
+
 
 The mean, rounded to three decimals
 ```{r}
@@ -37,28 +43,19 @@ m
 ```
 
 **b)** 
-```{r}
-mu=0.2
-n = length(data_read_1$birthweight); n # calculates the length
-s = round(sd(data_read_1$birthweight), 3); s # calculates standard deviation
-t = round(qt(0.95,df=length(data_read_1$birthweight)-1),3); t   # calculates test statistic
-ci = round(c(m-t*s/sqrt(n),m+t*s/sqrt(n)), 3); ci # 90% confidence interval
-```
-
-
-The length is: `r length(data_read_1$birthweight)`. This is calculated with the following formula:
+The length is: `r length(data_read_1$birthweight)`:
 ```{r}
 n = length(data_read_1$birthweight)
 n
 ```
 
-The standard deviation is: `r format(sd(data_read_1$birthweight), digits = 2)`. This is calculated with the following formula:
+The standard deviation is: `r format(sd(data_read_1$birthweight), digits = 2)`:
 ```{r}
 s = round(sd(data_read_1$birthweight), 3)
 s
 ```
 
-The test statistic is: `r qt(0.95,df=length(data_read_1$birthweight)-1)`. This is calculated with the following formula:
+The test statistic is: `r qt(0.95,df=length(data_read_1$birthweight)-1)`:
 ```{r}
 t = round(qt(0.95,df=length(data_read_1$birthweight)-1),3)
 t
@@ -71,16 +68,20 @@ round(c(m-t*s/sqrt(n),m+t*s/sqrt(n)), 3)
 ```
 
 **c)** 
+
+TODO: latex for H0 and H1, and describe why we use a t-test
+
 H0: mean birthweight is equal or smaller than 2800
 H1: mean birthweight is bigger than 2800
 ```{r}
 t.test(data_read_1$birthweight,mu=2800,alt="g") 
 ```
 
-The p-value is smaller than 0,05. This means that there is enough statistical evidence to reject H0 and thus to state that H1 is true.
+The p-value is smaller than 0.05. This means that there is enough statistical evidence to reject $H_0$ and thus to state that $H_1$ is true.
 
 **d)** 
-It's different because in b) we calculated a confidence interval with a 90% confidence level, while the T-test that was conducted at c) calculated a confidence interval with a 95%  confidence level. A confidence interval is a range of values that has a upper and lower bound below and above the mean of your statistics. The population parameter that you are trying to find would have to fall in this range based on the confidence level. A confidence level is the degree of certainty that the population value would fall in this range. The more you are certain that the population parameter will fall in this range, the wider the range will get. So a 90% confidence level will have a smaller range and thus a smaller confidence interval than a 95% confidence level would have. 
+It's different because in b) we calculated a confidence interval with a 90% confidence level, while the T-test that was conducted at c) calculated a confidence interval with a 95%  confidence level. A confidence interval is a range of values that has a upper and lower bound below and above the mean of your statistics. The population parameter that you are trying to find would have to fall in this range based on the confidence level. A confidence level is the degree of certainty that the population value would fall in this range. The more you are certain that the population parameter will fall in this range, the wider the range will get. So a 90% confidence level will have a smaller range and thus a smaller confidence interval than a 95% confidence level would have.
+
 It is one-sided because we wanted to check if the mean birthweight is bigger than 2800. Therefore, the upper bound of the confidence interval does not have a value but goes to infinity as it does not matter which value it is. The null hypothesis is rejected as long as the value is bigger than the lower bound.
 
 ### Exercise 1.2
@@ -108,10 +109,10 @@ TODO latex code
 
 ```{r}
 p_hat = 0.7
-q_hat = 1-p_hat
+q_hat = 1 - p_hat
 n = 200
 alpha = 1 - 0.99
-z_alpha2 = qnorm(1 - alpha/2)
+z_alpha2 = qnorm(1 - alpha / 2)
 margin_of_error = z_alpha2 * sqrt ((p_hat * q_hat) / n)
 round(c(p_hat - margin_of_error, p_hat + margin_of_error), 3)
 ```
@@ -122,8 +123,10 @@ So to conclude, the 99%-confidence interval for p is [0.617, 0.783]
 
 In order to test the null hypothesis that the fraction is equal to 75%, we will use a binomial test. As null hypothesis, we take $H_0: p = 0.75$ and as alternative hypothesis $H_1: p \ne 0.75$.
 
+TODO dubbelchecken
+
 ```{r}
-binom.test(140, 200, p = 0.75)
+binom.test(x, n, p = 0.75)
 ```
 
 The resulting p-value is 0.103. In case that we chose a significance level (alpha) of 0.1, this implies that the p-value of 0.103 is greater than the significance level. This would lead us to the conclusion that we do NOT reject the null hypothesis.
@@ -144,11 +147,11 @@ hum=weather$humidity
 tem=weather$temperature
 
 par(mfrow=c(2,3))
-hist(hum, main="Histogram humidity")
-boxplot(hum, main="Boxplot humidity")
+hist(hum, main="Histogram humidity", xlab="Humidity")
+boxplot(hum, main="Boxplot humidity", ylab="Humidity")
 qqnorm(hum, main="QQ-plot humidity")
-hist(tem, main="Histogram temperature")
-boxplot(tem, main="Boxplot temperature")
+hist(tem, main="Histogram temperature", xlab="Temperature")
+boxplot(tem, main="Boxplot temperature", ylab="Temperature")
 qqnorm(tem, main="QQ-plot temperature")
 ```
 
@@ -163,12 +166,17 @@ summary(weather)
 We'll revisit the QQ plot of the temperature:
 
 ```{r}
+par(mfrow=c(1,3))
 qqnorm(tem, main="QQ-plot of temperature") 
+hist(tem, main="Histogram temperature", xlab="Temperature")
+boxplot(tem, main="Boxplot temperature", ylab="Temperature")
 ```
 
 With this plot we can see that the temperature data does not follow a
 pattern seen with normal distributed samples. It is not a straight line
 in the Q-Q plot. It looks like the data is too spread out, meaning fat tails in the normal distribution.
+
+TODO: describe with histogram, boxplot.
 
 **c)**
 
@@ -191,11 +199,13 @@ c(m - t * s / sqrt(n), m + t * s / sqrt(n))
 
 This means that the true mean is (with a confidence interval of 90%) between 47.49 and 57.96.
 
+TODO: definition of confidence interval.
+
 **d)**
 
 This means that the margin of error should be a maximum 2% of humidity (that is, a value of 2).
 
-n must satisfy the following formula:
+n must satisfy the following formula, which we can rewrite:
 $$
 t_{a/2, n-1}\frac{s}{\sqrt{n}} \le E = 
 \sqrt{n} \ge \frac{t_{a/2, n-1^s}}{E} \approx 
@@ -209,11 +219,12 @@ Which would mean we would need at least 397 samples.
 
 The following data is being used for this exercise:
 ```{r}
-data_read_4 = read.table("./austen.txt",header=TRUE)
+data_read_4 = read.table("./austen.txt", header=TRUE)
+data_read_4
 ```
 
 **a)** 
-It is unclear by whom Sense and Emma are written. For the other two novels it is not: Sand1 is written by Austen and Sand2 is written by an admirer. Our guess is that Sense and Emma ar written by Austen as well and we will use this assumption while conducting the other exercises also. 
+It is unclear by whom Sense and Emma are written. For the other two novels it is not: Sand1 is written by Austen and Sand2 is written by an admirer. Our interpretation is that Sense and Emma are written by Austen as well and we will use this assumption while conducting the other exercises also. 
 Furthermore, we presumed that the test would be performed in order to check to what extend the novels are all written in the same way. 
 According to us, a test for homogeneity is the most suitable option to use. This test is able to check if the distribution of words is evenly spread across columns when comparing rows with each other. The distribution should be the same across rows in case the writing style is the same in all the novels.  
 <!-- Another option would be to run a test for independence and see if the results show a difference between the Austen-columns  -->
@@ -233,14 +244,14 @@ x
 Now that we only have the data of Austens novels, we can run a chi-squared test to see if Austen herself was consistent in her writing style or not. We will use the following hypotheses:
 H0: the distribution of words is the same for each column 
 H1: the distribution of words is not the same for each column
-This is performed in R with the command below
+This is performed in R with the command below:
 
 ```{r}
 z = chisq.test(x)
 z
 ```
 
-The p-value is 0.1308 and this is greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for each column. As a result of this, we conclude that Austen was consistent in her writing style. 
+The p-value is 0.1609 and this is greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for each column. As a result of this, we conclude that Austen was consistent in her writing style. 
 
 Shall we include the parts below?
 ```{r}
@@ -260,14 +271,17 @@ residuals(z)
  
 
 **c)** 
-Since we are going to use all data, we have to add the data from the novel written by the admirer to our current matrix. This is done with the code below.
+Since we are going to use all data, we have to add the data from the novel written by the admirer to our current matrix. This process is also described in the book Mathematical Statistics and Data Analysis by John A. Rice. We can do that with the following R code, where we sum the other three authors word count's with the imitator's:
+
 ```{r}
+Combined = (Sense + Emma + Sand1)
 Sand2 = data_read_4$Sand2
-x=as.data.frame(matrix(c(Sense, Emma, Sand1, Sand2),ncol=4,nrow=6))
-dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("Sense","Emma", "Sand1", "Sand2"))
+x=as.data.frame(matrix(c(Combined, Sand2),ncol=2,nrow=6))
+dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("Combined", "Sand2"))
 x
 ```
 The matrix now consists of data from all novels. We will again use a chi-squared test in order to test whether the admirer was successful in imitating Austen's style. We run a test for homogeneity since we test if the admirer was successful in imitating Austen's writing style. The hypotheses will therefore be:
+
 H0: the distribution of words is the same for each column 
 H1: the distribution of words is not the same for each column
 The chi-squared test is performed in R with the command below
@@ -277,7 +291,7 @@ z = chisq.test(x)
 z
 ```
 
-The p-value is 0.1208 and this is greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for each column. As a result of this, we conclude that the admirer was successful in imitating Austen's writing style.
+The p-value is 0.2363 and this is greater than 0.05 (or 5%). This means that there is not enough statistical evidence to reject H0, and thus we conclude that the distribution of words is the same for both columns. As a result of this, we conclude that the admirer was successful in imitating Austen's writing style.
 
 Shall we include the code below as well?
 <!-- z$expected -->
@@ -287,7 +301,7 @@ Shall we include the code below as well?
 <!-- 1-pchisq(X2,df=(6-1)*(4-1)) -->
 <!-- residuals(z) -->
 
-We also ran a second test in order to confirm if our conclusion stated above. For this second test we only took one novel of Austen and compared this with the one from the admirer. A new matrix was made for this, see below.
+We also ran a second test in order to confirm our conclusion stated above. For this second test we only took one novel of Austen and compared this with the one from the admirer. A new matrix was made for this, see below.
 
 ```{r}
 sand2 = data_read_4$Sand2
