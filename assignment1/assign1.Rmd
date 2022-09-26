@@ -69,10 +69,16 @@ round(c(m-t*s/sqrt(n),m+t*s/sqrt(n)), 3)
 
 **c)** 
 
-TODO: latex for H0 and H1, and describe why we use a t-test
+We start with the following null-hypothesis and alternative hypothesis:
+$$
+H_0: \text{mean birthweight} \le 2800
+$$
+$$
+H_0: \text{mean birthweight} > 2800
+$$
 
-H0: mean birthweight is equal or smaller than 2800
-H1: mean birthweight is bigger than 2800
+Then, we can use a t-test:
+
 ```{r}
 t.test(data_read_1$birthweight,mu=2800,alt="g") 
 ```
@@ -103,9 +109,12 @@ The 99%-confidence interval for the population proportion p can be derived as fo
 
 TODO latex code
 
-with:
+$$
+\hat p - E < p < \hat p + E \text{ where }E = z_{a/2}\sqrt{\frac{\hat p \hat q}{n}}
+$$
+where $p$ = population proportion, $\hat p$ = sample proportionn $n$ = number of sample values, $E$ = margin of error, and $z_{a/2}$ is the z-score.
 
-TODO latex code
+Using the following R code we can get the results of this formula:
 
 ```{r}
 p_hat = 0.7
@@ -163,7 +172,7 @@ summary(weather)
 
 **b)**
 
-We'll revisit the QQ plot of the temperature:
+We'll revisit the plots of the temperature:
 
 ```{r}
 par(mfrow=c(1,3))
@@ -172,11 +181,8 @@ hist(tem, main="Histogram temperature", xlab="Temperature")
 boxplot(tem, main="Boxplot temperature", ylab="Temperature")
 ```
 
-With this plot we can see that the temperature data does not follow a
-pattern seen with normal distributed samples. It is not a straight line
-in the Q-Q plot. It looks like the data is too spread out, meaning fat tails in the normal distribution.
-
-TODO: describe with histogram, boxplot.
+With the QQ-plot we can see that the temperature data does not follow a
+pattern seen with normal distributed samples; it is not a straight line. It looks like the data is too spread out, meaning fat tails in the normal distribution. In the histogram this can be seen more clearly, data is spreak out around the 23 degree mark and the 70 degree mark. And as last, the boxplot is skewed.
 
 **c)**
 
@@ -197,9 +203,7 @@ t = qt(1 - alpha / 2, df=n - 1)
 c(m - t * s / sqrt(n), m + t * s / sqrt(n))
 ```
 
-This means that the true mean is (with a confidence interval of 90%) between 47.49 and 57.96.
-
-TODO: definition of confidence interval.
+This means that the true mean is (with a confidence interval of 90%) between 47.49 and 57.96. This means that if this experiment would be repeated multiple times, in 90% of the cases the mean would be between those values. It would not mean that we know with a confidence level of 90% that the mean is between those values.
 
 **d)**
 
