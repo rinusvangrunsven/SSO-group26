@@ -43,7 +43,7 @@ m = round(mean(data_read_1$birthweight),2); m
 
 **b)** 
 
-We use the standard formula $\bar X \pm t_{a/2, n-1} \frac{s}{\sqrt{n}}$.
+We use the standard formula for a t-test $\bar X \pm t_{a/2, n-1} \frac{s}{\sqrt{n}}$.
 
 The length is:
 ```{r}
@@ -241,8 +241,7 @@ dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("Sense","Emma"
 x
 ```
 Now that we only have the data of Austens novels, we can run a chi-squared test to see if Austen herself was consistent in her writing style or not. We will use the following hypotheses:
-H0: the distribution of words is the same for each column 
-H1: the distribution of words is not the same for each column
+H0: the distribution of words is the same for each column, H1: the distribution of words is not the same for each column.
 This is performed in R with the command below:
 
 ```{r}
@@ -263,9 +262,8 @@ dimnames(x)=list(c("a","an", "this", "that", "with", "without"),c("Combined", "S
 x
 ```
 The matrix now consists of data from all novels. We will again use a chi-squared test in order to test whether the admirer was successful in imitating Austen's style. We run a test for homogeneity since we test if the admirer was successful in imitating Austen's writing style. The hypotheses will therefore be:
-
-H0: the distribution of words is the same for each column 
-H1: the distribution of words is not the same for each column
+H0: the distribution of words is the same for each column,
+H1: the distribution of words is not the same for each column.
 The chi-squared test is performed in R with the command below
 
 ```{r}
