@@ -1,5 +1,5 @@
 ---
-title: "Assignment 1"
+title: "Assignment 2"
 author: "Group 26. Rinus van Grunsven (10755373), Florens Douwes (11254483), Imad Lotfi (14651610)"
 date: "TBD 2022"
 output: pdf_document
@@ -7,12 +7,58 @@ fontsize: 11pt
 highlight: tango
 ---
 
-### Exercise 1.1
+
+```{r setup, include=FALSE}
+install.packages("ggplot2")
+
+library(ggplot2)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Exercise 2.1
 
 **a)** 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+
+### Exercise 2.2
+
+TODO: run assumptions
+
+
+**a)**
+```{r}
+df = read.table("./treeVolume.txt", header=TRUE)
+
+# Does the type affect the volume?
+fit = aov(volume ~ type, data=df)
+#summary(treevollm) 
+summary(fit)
+```
+
+The F value is not very high, and the p value is not very small. Therefore it seems (in this test) that the volume is not dependent on the type.
+
+TODO: explain more
+
+```{r}
+ggplot(df, aes(y=volume, x=type, fill=type))+
+  stat_summary(fun.y="mean", geom="bar",position="dodge")+
+  stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8)
+
+```
+
+TODO explain chart
+
+**b)**
+```{r}
+
+fit2 = aov(volume ~ type + diameter + height, data=df)
+summary(treeancovalm)
+```
+```{r}
+predict()
+
 ```
 
 ## R Markdown
