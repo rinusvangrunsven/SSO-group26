@@ -28,8 +28,8 @@ takers = data_sat$takers
 total = data_sat$total
 ```
 
-The first method is the step-up method. This method checks the statistics for every single variable and chooses the option that yields the highest multiple r-squared as long as the p-value is significant.
-The results are shown below.
+The first technique is the step-up method. This method examines the statistics for each variable and selects the option with the highest r-squared value, given the p-value is significant. This procedure is repeated until the added variable's p-value is no longer statistically significant.
+The outcomes are displayed below.
 
 ```{r}
 # Step-up method
@@ -45,12 +45,11 @@ summary(lm(total~takers+salary)) # multipled R^2 = 0.8056, p-value = 0.0394
 # Third round
 summary(lm(total~takers+expend+ratio)) # multipled R^2 = 0.8227, p-value = 0.3629 
 summary(lm(total~takers+expend+salary)) # multipled R^2 = 0.8196, p-value = 0.8527
-# stop after second round as the p-values are both not significant
 ```
 
-We stop after the third round as the p-value for both the ratio as the salary is not significant. Therefore, the model using the step-up method will be: lm(total~takers+expend).
-The step-down method does not add up varibles, but starts with a model that has got all variables included and strips down options. These are chosen by taking the highest p-value that is nog significant. 
-The calculation are shown below.
+We stop after the second round because the p-values for both the ratio and the salary are not statistically significant. Consequently, the step-up method model will be lm(total~takers+expend).
+The step-down method does not add variables, but instead begins with a model that contains all variables and then removes options. These are selected using the highest non-significant p-value.
+The calculation is displayed below.
 
 ```{r}
 # Step-down method
@@ -60,11 +59,9 @@ summary(lm(total~takers+expend+ratio+salary)) # remove expend since it has the h
 summary(lm(total~takers+ratio+salary)) # all variables have a significant p-value, so stop removing
 ```
 
-Both have got three variables, but numbers step-up method are: multiple-r^2 = 0.8195 and p-value = < 2.2e-16
-For the step-down method it's like this: multiple-r^2 = 0.8239 and p-value = < 2.2e-16
-As the multiple-r^2 is higher for the step-down method and the p-value is significant, we would choose this one. 
-
-The step-up method has got two variables while the step-down method has got three variables. The simpler the model, the better. Therefore, we would choose the model that the step-up method made. 
+The statistics for the step-up method are as follows: multiple r-squared = 0.8195 and p-value = < 2.2e-16.
+For the step-down method it is: multiple-r^2 = 0.8239 and p-value = < 2.2e-16
+Given these numbers, the model with the greatest r-squared multiple would be preferred. However, as the difference is very small, we also consider the model's complexity. The step-up method utilizes only two variables, whereas the step-down method has three. Therefore, the former is easier. In this situation, we would prefer the step-up method due to the fact that their performance is nearly identical.
 
 **b)**
 The variable takers2 is the square of the takers values. This is followed by the step-up method.
@@ -84,33 +81,40 @@ summary(lm(total~takers+ratio)) # multipled R^2 = 0.7991, p-value = 0.0982
 summary(lm(total~takers+salary)) # multipled R^2 = 0.8056, p-value = 0.0394
 summary(lm(total~takers+takers2)) # multipled R^2 = 0.8732, p-value = 8.96e-07 --> choose this one second
 # Third round
-summary(lm(total~takers+takers2+expend)) # multipled R^2 = 0.8859, p-value = 0.0285 --> choose this oen third
+summary(lm(total~takers+takers2+expend)) # multipled R^2 = 0.8859, p-value = 0.0285 --> choose this one third
 summary(lm(total~takers+takers2+ratio)) # multipled R^2 = 0.8738, p-value = 0.634
 summary(lm(total~takers+takers2+salary)) # multipled R^2 = 0.8858, p-value = 0.029 
 # Fourth round
 summary(lm(total~takers+takers2+expend+ratio)) # multipled R^2 = 0.8887, p-value = 0.2936
 summary(lm(total~takers+takers2+expend+salary)) # multipled R^2 = 0.8873, p-value = 0.466
-# --> stop after third round as both p-values are not significant
 ```
+
+We stop after the third round because the variables added in the fourth round do not have a significant p-value.
 
 The step-down method is shown below:
 ```{r}
 # First round
-summary(lm(total~takers+expend+ratio+salary)) # remove expend since it has the highest p-value that is not significant
+summary(lm(total~takers+takers2+expend+ratio+salary)) # remove salary since it has the highest p-value that is not significant
 # Second round
-summary(lm(total~takers+ratio+salary)) # all variables have a significant p-value, so stop removing
+summary(lm(total~takers+takers2+expend+ratio)) # remove ratio as it has the highest p-value that is not significant
+# Third round
+summary(lm(total~takers+takers2+expend)) # all variables have a significant p-value, so stop removing
 
 ```
-
-Both have got three variables, but numbers step-up method are: multiple-r^2 = 0.8195 and p-value = < 2.2e-16
-For the step-down method it's like this: multiple-r^2 = 0.8239 and p-value = < 2.2e-16
-As the multiple-r^2 is higher for the step-down method and the p-value is significant, we would choose this one. 
+The variable takers2 is included in both the step-up and step-down models, making its addition useful.Both have got three variables so they are equally complex. 
+Since both models are identical, it makes no difference which method is chosen, as both will result in the same model.
+<!-- The statistics for the step-up method are: multiple r-squared = 0.8195 and p-value = < 2.2e-16 -->
+<!-- For the step-down method it is: multiple r-squared = 0.8859 and p-value = < 2.2e-16 -->
+<!-- Due to the fact that the multiple r-squared is greater and the p-value is significant for the step-down method, we would choose this method. -->
 
 **c)**
-The step-up method has got four variables while the step-down method has only got three variables. We would opt for a simpler model and thus the latter.
-For the step-up method it's like this: multiple-r^2 = 0.8859 and p-value = < 2.2e-16
-For the step-down method it's like this: multiple-r^2 = 0.8859 and p-value = < 2.2e-16
-The values are exactly the same, so we would opt for the simpler model.
+The model in exercise a has an r-squared multiple of 0.8194 and a p-value less than 2.2e-16. Multiple r-squared value of 0.8859 and a p-value less than 2.2e-16 are the statistical results for the model selected in exercise b. However, the first model uses only two variables, while the second model utilises three. We prefer the multiple r-squared value over the complexity of the model and thus select the second model. 
+
+
+<!-- The step-up method has got four variables while the step-down method has only got three variables. We would opt for a simpler model and thus the latter. -->
+<!-- For the step-up method it's like this: multiple-r^2 = 0.8859 and p-value = < 2.2e-16 -->
+<!-- For the step-down method it's like this: multiple-r^2 = 0.8859 and p-value = < 2.2e-16 -->
+<!-- The values are exactly the same, so we would opt for the simpler model. -->
 
 
 **d)**
@@ -124,6 +128,7 @@ predict(chosen_model,newxdata,interval="prediction",level=0.95)
 # Fit = 961.5703; lwr = 907.6003; upr = 1015.54;
 ```
 
+The fit is 961.57, the lowerbound 907.6 and the upperbound 1015.54.
 
 ### Exercise 2.2
 
@@ -168,10 +173,15 @@ predict()
 
 ### Exercise 2.2
 **a)**
+The image depicts the calculations performed in Excel. We swapped the products and nutrients because it was simpler to construct the Excel solver in this manner.The solution is 0 raw carrots, 7,71 baked potatoes, 0 wheat bread, 0 cheddar cheese, and 9,28 peanut butter. 
+<!-- Mention the calculations made in objective and totals? -->
 ![screenshot a](./2,3a Small.jpeg)
+
 **b)**
+The calculation has been modified slightly because the price of peanut butter increases after the fifth unit. Therefore, a new column containing the same nutrients at a higher price is added. Additionally, a new constraint has been added so that the quantity of inexpensive peanut butter units cannot exceed five.The solution is 0 raw carrots, 16,62 baked potatoes, 0 wheat bread, 0 cheddar cheese, 5 cheap peanut butter, and 0 expensive peanut butter. 
 ![screenshot b](./2,3b Small.jpeg)
 **c)**
+The same data as in exercise a) are used, with the additional constraint that the units must be integers.The solution is 0 raw carrots, 9 baked potatoes, 0 wheat bread, 0 cheddar cheese, and 9 peanut butter. 
 ![screenshot c](./2,3c Small.jpeg)
 
 
