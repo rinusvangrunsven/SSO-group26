@@ -220,6 +220,19 @@ The data used in this exercise is the same as the one in exercise a). The calcul
 ![screenshot c](./2,3c.png)
 
 
+### Exercise 2.4
+
+**a)**
+
+The transportation problem is a simple constraint problem. Letting the constraint to both that the demand should at least match the given demand, while the supply may at most be the given supply, the solver will solve the problem.
+
+![screenshot a](./2.4a.png)
+
+**b)**
+This model is an extension to the one in a). To incorporate the extra cost, we will add a binary variable matrix to act as a usage constraint. This constraint will enable a large value (100000 in our case) in a matrix of parameters when enabled, and zero when disabled. Then, another constraint is added to let the path decision matrix be at most the value in this matrix. This means that, when the solver wants to use a path, the binary variable has to be set to one, so that the path limit is unlimited. If the path is not used, the maximum value allowed is zero, effectively disabling the path. And finally, in the objective the sum is taken from the using path matrix, multiplied by the path usage cost (100). So when a path is used, this usage cost is added to the objective.
+
+![screenshot b](./2.4b.png)
+
 
 
 ### Exercise 2.5
