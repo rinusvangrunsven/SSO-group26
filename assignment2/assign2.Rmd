@@ -8,18 +8,18 @@ highlight: tango
 ---
 
 
-```{r setup, include=FALSE}
-install.packages("ggplot2")
-
-library(ggplot2)
-
-knitr::opts_chunk$set(echo = FALSE)
-```
+# ```{r setup, include=FALSE}
+# install.packages("ggplot2")
+# 
+# library(ggplot2)
+# 
+# knitr::opts_chunk$set(echo = FALSE)
+# ```
 
 ### Exercise 2.1
 
 **a)** The data is read in with the following command:
-```{r}
+```{r, results='hide'}
 data_sat = read.table("./sat.txt", header=TRUE)
 expend = data_sat$expend
 ratio = data_sat$ratio
@@ -31,15 +31,15 @@ total = data_sat$total
 The first technique is the step-up method. This method examines the statistics for each variable and selects the option with the highest r-squared value, given the p-value is significant. This procedure is repeated until the added variable's p-value is no longer statistically significant.
 The outcomes are displayed below.
 
-```{r}
+```{r, results='hide'}
 # Step-up method
 # First round
 summary(lm(total~expend)) # multipled R^2 = 0,1448, p-value = 0.00641
 summary(lm(total~ratio)) # multipled R^2 = 0.006602, p-value = 0.575
 summary(lm(total~salary)) # multipled R^2 = 0.1935, p-value = 0.00139
-summary(lm(total~takers)) # multipled R^2 = 0.787, p-value = <2e-16 --> choose this one first
+summary(lm(total~takers)) # multipled R^2 = 0.787, p-value = <2e-16
 # Second round
-summary(lm(total~takers+expend)) # multipled R^2 = 0.8195, p-value = 0.00553 --> choose this one second
+summary(lm(total~takers+expend)) # multipled R^2 = 0.8195, p-value = 0.00553
 summary(lm(total~takers+ratio)) # multipled R^2 = 0.7991, p-value = 0.0982
 summary(lm(total~takers+salary)) # multipled R^2 = 0.8056, p-value = 0.0394
 # Third round
@@ -47,25 +47,25 @@ summary(lm(total~takers+expend+ratio)) # multipled R^2 = 0.8227, p-value = 0.362
 summary(lm(total~takers+expend+salary)) # multipled R^2 = 0.8196, p-value = 0.8527
 ```
 
-We stop after the second round because the p-values for both the ratio and the salary are not statistically significant. Consequently, the step-up method model will be lm(total~takers+expend).
+The variable 'takers' will be chosen in the first round and the variable 'expend' in the second round.  We stop after the second round because the p-values for both the ratio and the salary are not statistically significant. Consequently, the step-up method model will be lm(total~takers+expend).
 The step-down method does not add variables, but instead begins with a model that contains all variables and then removes options. These are selected using the highest non-significant p-value.
 The calculation is displayed below.
 
-```{r}
+```{r, results='hide'}
 # Step-down method
 # First round
-summary(lm(total~takers+expend+ratio+salary)) # remove expend since it has the highest p-value that is not significant
+summary(lm(total~takers+expend+ratio+salary)) 
 # Second round
-summary(lm(total~takers+ratio+salary)) # all variables have a significant p-value, so stop removing
+summary(lm(total~takers+ratio+salary)) 
 ```
-
+The variable 'expend' is removed in the first round because it has the highest non-significant p-value.There is no further removal of variables as all variables have significant p-values.
 The statistics for the step-up method are as follows: multiple r-squared = 0.8195 and p-value = < 2.2e-16.
 For the step-down method it is: multiple-r^2 = 0.8239 and p-value = < 2.2e-16
 Given these numbers, the model with the greatest r-squared multiple would be preferred. However, as the difference is very small, we also consider the model's complexity. The step-up method utilizes only two variables, whereas the step-down method has three. Therefore, the former is easier. In this situation, we would prefer the step-up method due to the fact that their performance is nearly identical.
 
 **b)**
 The variable takers2 is the square of the takers values. This is followed by the step-up method.
-```{r}
+```{r, results='hide'}
 takers2=(data_sat$takers)^2
 takers;takers2
 # Step-up method
@@ -73,26 +73,25 @@ takers;takers2
 summary(lm(total~expend)) # multipled R^2 = 0,1448, p-value = 0.00641
 summary(lm(total~ratio)) # multipled R^2 = 0.006602, p-value = 0.575
 summary(lm(total~salary)) # multipled R^2 = 0.1935, p-value = 0.00139
-summary(lm(total~takers)) # multipled R^2 = 0.787, p-value = <2e-16 --> choose this one first
+summary(lm(total~takers)) # multipled R^2 = 0.787, p-value = <2e-16 
 summary(lm(total~takers2)) # multipled R^2 = 0.6578, p-value = 9.28e-13
 # Second round
 summary(lm(total~takers+expend)) # multipled R^2 = 0.8195, p-value = 0.00553 
 summary(lm(total~takers+ratio)) # multipled R^2 = 0.7991, p-value = 0.0982
 summary(lm(total~takers+salary)) # multipled R^2 = 0.8056, p-value = 0.0394
-summary(lm(total~takers+takers2)) # multipled R^2 = 0.8732, p-value = 8.96e-07 --> choose this one second
+summary(lm(total~takers+takers2)) # multipled R^2 = 0.8732, p-value = 8.96e-07
 # Third round
-summary(lm(total~takers+takers2+expend)) # multipled R^2 = 0.8859, p-value = 0.0285 --> choose this one third
+summary(lm(total~takers+takers2+expend)) # multipled R^2 = 0.8859, p-value = 0.0285 
 summary(lm(total~takers+takers2+ratio)) # multipled R^2 = 0.8738, p-value = 0.634
 summary(lm(total~takers+takers2+salary)) # multipled R^2 = 0.8858, p-value = 0.029 
 # Fourth round
 summary(lm(total~takers+takers2+expend+ratio)) # multipled R^2 = 0.8887, p-value = 0.2936
 summary(lm(total~takers+takers2+expend+salary)) # multipled R^2 = 0.8873, p-value = 0.466
 ```
-
-We stop after the third round because the variables added in the fourth round do not have a significant p-value.
+In the first round, the variable ‘takers’ is selected, followed by the variable ‘takers2’ and finally the variable ‘expend’. We stop after the third round because the variables added in the fourth round do not have a significant p-value.
 
 The step-down method is shown below:
-```{r}
+```{r, results='hide'}
 # First round
 summary(lm(total~takers+takers2+expend+ratio+salary)) # remove salary since it has the highest p-value that is not significant
 # Second round
@@ -119,7 +118,7 @@ The model in exercise a has an r-squared multiple of 0.8194 and a p-value less t
 
 **d)**
 
-```{r}
+```{r, results='hide'}
 summary(lm(total~takers+takers2+expend))
 chosen_model = lm(total~takers+takers2+expend)
 # model = 1052 - 6.381 * takers + 0.04741 * takers2 + 7.914 * expend
@@ -129,6 +128,7 @@ predict(chosen_model,newxdata,interval="prediction",level=0.95)
 ```
 
 The fit is 961.57, the lowerbound 907.6 and the upperbound 1015.54.
+
 
 ### Exercise 2.2
 
@@ -201,19 +201,42 @@ plot(residuals(lm4))
 By doing so we can see the residuals going down a lot, which would improve the fit.
 
 ### Exercise 2.3
+
 **a)**
-The image depicts the calculations performed in Excel. We swapped the products and nutrients because it was simpler to construct the Excel solver in this manner.The solution is 0 raw carrots, 7,71 baked potatoes, 0 wheat bread, 0 cheddar cheese, and 9,28 peanut butter. 
+The calculation made in cell C23 is '=SUMPRODUCT(C19:G19;C20:G20)'. For cell I7 it is '=SUMPRODUCT(C7:G7;C19:G19)', cell I8 '=SUMPRODUCT(C8:G8;C19:G19)', cell I9 '=SUMPRODUCT(C9:G9;C19:G19)' and cell I10 '=SUMPRODUCT(C10:G10;C19:G19)'.
+The image depicts the calculations performed in Excel solver.  
+The products and nutrients are swapped because it was simpler to construct the Excel solver in this manner.The solution is 0 raw carrots, 7,71 baked potatoes, 0 wheat bread, 0 cheddar cheese, and 9,28 peanut butter. 
 <!-- Mention the calculations made in objective and totals? -->
-![screenshot a](./2,3a Small.jpeg)
+![screenshot a](./2,3a.png)
 
 **b)**
-The calculation has been modified slightly because the price of peanut butter increases after the fifth unit. Therefore, a new column containing the same nutrients at a higher price is added. Additionally, a new constraint has been added so that the quantity of inexpensive peanut butter units cannot exceed five.The solution is 0 raw carrots, 16,62 baked potatoes, 0 wheat bread, 0 cheddar cheese, 5 cheap peanut butter, and 0 expensive peanut butter. 
-![screenshot b](./2,3b Small.jpeg)
+The same calculations in cells I7, I8, I9, and I10 are made as was done in exercise a), but cell C23 is now '=SUMPRODUCT(C19:H19;C20:H20)'.
+The calculation has been modified slightly because the price of peanut butter increases after the fifth unit. Therefore, a new column ('Peanut butter expensive') containing the same nutrients but at a higher price is added. Additionally, a new constraint has been added so that the quantity of inexpensive peanut butter units cannot exceed five units.The solution is 0 raw carrots, 16,62 baked potatoes, 0 wheat bread, 0 cheddar cheese, 5 cheap peanut butter, and 0 expensive peanut butter. 
+![screenshot b](./2,3b.png)
+
+
 **c)**
-The same data as in exercise a) are used, with the additional constraint that the units must be integers.The solution is 0 raw carrots, 9 baked potatoes, 0 wheat bread, 0 cheddar cheese, and 9 peanut butter. 
-![screenshot c](./2,3c Small.jpeg)
+The data used in this exercise is the same as the one in exercise a). The calculations made in this exercise are also the same, but with the additional constraint that the decision variables must be integers.The solution is 0 raw carrots, 9 baked potatoes, 0 wheat bread, 0 cheddar cheese, and 9 peanut butter. 
+![screenshot c](./2,3c.png)
 
 
 
 
+### Exercise 2.5
 
+**a)**
+The problem is formulated as an Integer Linear Programming (ILP) problem, using the following setup:
+![screenshot a1.1](./2,5a.png)
+In this setup, all possible shifts (8-hour and 4-hour shifts starting between mentioned times) are presented in a matrix format. The cost per shift (# hours * hourly wage) and the required number of workers can also be found in this setup. The amount of shifts of a specific type can be found in the column “amount”. The number of workers per interval is corresponding to the amount of shifts per type. Lastly, our objective is the total costs (sum of (amount per shift type* cost per shift)). By adjusting the column “amount” (decision variables) with the constraints that the amounts should be integers and that the number of workers satisfy the minimum requirement, we are minimizing our objective (total costs). This is done by using the integrated solver of Excel, as follows:
+![screenshot a1.2](./2,5a.png)
+The resulting objective value is 3296. This denotes that the minimum cost to cover all intervals with the required number of workers is equal to 3296 euro.
+
+
+**b)**
+To answer this question, the same formulation as above is used with some adjustments:
+-	4-hour shifts are removed.
+-	Instead of a required number of workers, there is a demanded number of workers. This changes the problem in the way that it is also possible that in some cases the demanded number of workers is not reached (understaffed). In part a, it was only possible to have more scheduled workers than required (overstaffed), because the required number was a hard minimum. Now both situations are possible.
+-	The objective value is now the total absolute difference between the demanded number of workers and the scheduled number of workers. By solving this ILP, we are minimizing this difference. A low objective value corresponds to reliability in scheduling the demanded amount of workers. 
+![screenshot a1.2](./2,5b.png)
+
+As before, the integrated solver of excel (with the adjustments above) is used to solve this problem. As can be seen, the resulting objective value is 63. So the schedule that minimizes the sum of absolute differences between the demanded and scheduled amount of workers has an outcome of 63.
