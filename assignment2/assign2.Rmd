@@ -7,15 +7,6 @@ fontsize: 11pt
 highlight: tango
 ---
 
-
-# ```{r setup, include=FALSE}
-# install.packages("ggplot2")
-# 
-# library(ggplot2)
-# 
-# knitr::opts_chunk$set(echo = FALSE)
-# ```
-
 ### Exercise 2.1
 
 **a)** The data is read in with the following command:
@@ -141,13 +132,13 @@ df = read.table("./treeVolume.txt", header=TRUE)
 We assume that there is no hidden relationship between measurements. We also need to know if the data is normalized.
 ```{r}
 shapiro.test(df$diameter);shapiro.test(df$volume);shapiro.test(df$height);
-par(mfrow=c(3,3));qqnorm(df$diameter, main="QQ-plot diameter");qqnorm(df$volume, main="QQ-plot volume");qqnorm(df$height, main="QQ-plot height");hist(df$diameter, main="Histogram diameter");hist(df$volume, main="Histogram volume");hist(df$height, main="Histogram height");boxplot(df$diameter, main="Boxplot diameter");boxplot(df$volume, main="Boxplot volume");boxplot(df$height, main="Boxplot height")
+par(mfrow=c(3,3));
+qqnorm(df$diameter, main="QQ-plot diameter");qqnorm(df$volume, main="QQ-plot volume");qqnorm(df$height, main="QQ-plot height");
+hist(df$diameter, main="Histogram diameter");hist(df$volume, main="Histogram volume");hist(df$height, main="Histogram height");
+boxplot(df$diameter, main="Boxplot diameter");boxplot(df$volume, main="Boxplot volume");boxplot(df$height, main="Boxplot height")
 ```
-The data follows a fairly normal distribution, as far as we can know with the limited dataset.
 
-#```{r}
-#plot(df$diameter, df$height,col=factor(df$type,labels=c("blue","red")))
-#```
+The data follows a fairly normal distribution, as far as we can know with the limited dataset.
 
 Next, we will model the differences in the mean of the volume, as a function of the type of tree:
 
@@ -161,7 +152,9 @@ The F value is not high, which means there is little variation between groups. F
 
 
 ```{r}
-par(mfrow=c(1,2));boxplot(df[df$type == "beech",]$volume, main="Beech volume");boxplot(df[df$type == "oak",]$volume, main="Oak volume")
+par(mfrow=c(1,2));
+boxplot(df[df$type == "beech",]$volume, main="Beech volume");
+boxplot(df[df$type == "oak",]$volume, main="Oak volume")
 ```
 
 However, graphing the data shows that an oak does in fact seem to have a higher mean volume compared to a beech, just not significant enough. The variance looks about the same.
@@ -191,8 +184,8 @@ predict(lm2, newdata=data.frame(height=mean(df$height), diameter=mean(df$diamete
 A graphical investigation how the diameter influences the volume:
 
 ```{r}
-par(mfrow=c(2,1));
-pairs(split(df, df$type)$beech[c('volume', 'diameter', 'height')], main="Beech");
+par(mfrow=c(1,2))
+pairs(split(df, df$type)$beech[c('volume', 'diameter', 'height')], main="Beech")
 pairs(split(df, df$type)$oak[c('volume', 'diameter', 'height')], main="Oak")
 ```
 For both tree types, the volume and diameter show a clear relation (straight line). The relation also seems present in both tree types.
