@@ -195,7 +195,7 @@ par(mfrow=c(2,1));
 pairs(split(df, df$type)$beech[c('volume', 'diameter', 'height')], main="Beech");
 pairs(split(df, df$type)$oak[c('volume', 'diameter', 'height')], main="Oak")
 ```
-For both tree types, the volume and diameter show a clear relation (straight line). This could suggest a relation. The relation also seems present in both tree types.
+For both tree types, the volume and diameter show a clear relation (straight line). The relation also seems present in both tree types.
 
 **c)**
 We can square the volume, as the diameter and height can be seen similar to a multiplication that results in the volume (diameter * height = volume).
