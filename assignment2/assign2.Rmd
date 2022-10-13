@@ -22,33 +22,14 @@ total = data_sat$total
 The first technique is the step-up method. This method examines the statistics for each variable and selects the option with the highest r-squared value, given the p-value is significant. This procedure is repeated until the added variable's p-value is no longer statistically significant.
 The outcomes are displayed below.
 
-```{r, results='hide'}
-# Step-up method
-# First round
-summary(lm(total~expend)) # multipled R^2 = 0,1448, p-value = 0.00641
-summary(lm(total~ratio)) # multipled R^2 = 0.006602, p-value = 0.575
-summary(lm(total~salary)) # multipled R^2 = 0.1935, p-value = 0.00139
-summary(lm(total~takers)) # multipled R^2 = 0.787, p-value = <2e-16
-# Second round
-summary(lm(total~takers+expend)) # multipled R^2 = 0.8195, p-value = 0.00553
-summary(lm(total~takers+ratio)) # multipled R^2 = 0.7991, p-value = 0.0982
-summary(lm(total~takers+salary)) # multipled R^2 = 0.8056, p-value = 0.0394
-# Third round
-summary(lm(total~takers+expend+ratio)) # multipled R^2 = 0.8227, p-value = 0.3629 
-summary(lm(total~takers+expend+salary)) # multipled R^2 = 0.8196, p-value = 0.8527
-```
+
+
+
 
 The variable 'takers' will be chosen in the first round and the variable 'expend' in the second round.  We stop after the second round because the p-values for both the ratio and the salary are not statistically significant. Consequently, the step-up method model will be lm(total~takers+expend).
 The step-down method does not add variables, but instead begins with a model that contains all variables and then removes options. These are selected using the highest non-significant p-value.
 The calculation is displayed below.
 
-```{r, results='hide'}
-# Step-down method
-# First round
-summary(lm(total~takers+expend+ratio+salary)) 
-# Second round
-summary(lm(total~takers+ratio+salary)) 
-```
 The variable 'expend' is removed in the first round because it has the highest non-significant p-value.There is no further removal of variables as all variables have significant p-values.
 The statistics for the step-up method are as follows: multiple r-squared = 0.8195 and p-value = < 2.2e-16.
 For the step-down method it is: multiple-r^2 = 0.8239 and p-value = < 2.2e-16
@@ -56,41 +37,16 @@ Given these numbers, the model with the greatest r-squared multiple would be pre
 
 **b)**
 The variable takers2 is the square of the takers values. This is followed by the step-up method.
-```{r, results='hide'}
+```{r}
 takers2=(data_sat$takers)^2
-takers;takers2
-# Step-up method
-# First round
-summary(lm(total~expend)) # multipled R^2 = 0,1448, p-value = 0.00641
-summary(lm(total~ratio)) # multipled R^2 = 0.006602, p-value = 0.575
-summary(lm(total~salary)) # multipled R^2 = 0.1935, p-value = 0.00139
-summary(lm(total~takers)) # multipled R^2 = 0.787, p-value = <2e-16 
-summary(lm(total~takers2)) # multipled R^2 = 0.6578, p-value = 9.28e-13
-# Second round
-summary(lm(total~takers+expend)) # multipled R^2 = 0.8195, p-value = 0.00553 
-summary(lm(total~takers+ratio)) # multipled R^2 = 0.7991, p-value = 0.0982
-summary(lm(total~takers+salary)) # multipled R^2 = 0.8056, p-value = 0.0394
-summary(lm(total~takers+takers2)) # multipled R^2 = 0.8732, p-value = 8.96e-07
-# Third round
-summary(lm(total~takers+takers2+expend)) # multipled R^2 = 0.8859, p-value = 0.0285 
-summary(lm(total~takers+takers2+ratio)) # multipled R^2 = 0.8738, p-value = 0.634
-summary(lm(total~takers+takers2+salary)) # multipled R^2 = 0.8858, p-value = 0.029 
-# Fourth round
-summary(lm(total~takers+takers2+expend+ratio)) # multipled R^2 = 0.8887, p-value = 0.2936
-summary(lm(total~takers+takers2+expend+salary)) # multipled R^2 = 0.8873, p-value = 0.466
 ```
+
+
+
 In the first round, the variable ‘takers’ is selected, followed by the variable ‘takers2’ and finally the variable ‘expend’. We stop after the third round because the variables added in the fourth round do not have a significant p-value.
 
 The step-down method is shown below:
-```{r, results='hide'}
-# First round
-summary(lm(total~takers+takers2+expend+ratio+salary)) # remove salary since it has the highest p-value that is not significant
-# Second round
-summary(lm(total~takers+takers2+expend+ratio)) # remove ratio as it has the highest p-value that is not significant
-# Third round
-summary(lm(total~takers+takers2+expend)) # all variables have a significant p-value, so stop removing
 
-```
 The variable takers2 is included in both the step-up and step-down models, making its addition useful.Both have got three variables so they are equally complex. 
 Since both models are identical, it makes no difference which method is chosen, as both will result in the same model.
 <!-- The statistics for the step-up method are: multiple r-squared = 0.8195 and p-value = < 2.2e-16 -->
@@ -211,17 +167,17 @@ The calculation made in cell C23 is '=SUMPRODUCT(C19:G19;C20:G20)'. For cell I7 
 The image depicts the calculations performed in Excel solver.  
 The products and nutrients are swapped because it was simpler to construct the Excel solver in this manner.The solution is 0 raw carrots, 7,71 baked potatoes, 0 wheat bread, 0 cheddar cheese, and 9,28 peanut butter. 
 <!-- Mention the calculations made in objective and totals? -->
-![screenshot a](./2,3a.png)
+
 
 **b)**
 The same calculations in cells I7, I8, I9, and I10 are made as was done in exercise a), but cell C23 is now '=SUMPRODUCT(C19:H19;C20:H20)'.
 The calculation has been modified slightly because the price of peanut butter increases after the fifth unit. Therefore, a new column ('Peanut butter expensive') containing the same nutrients but at a higher price is added. Additionally, a new constraint has been added so that the quantity of inexpensive peanut butter units cannot exceed five units.The solution is 0 raw carrots, 16,62 baked potatoes, 0 wheat bread, 0 cheddar cheese, 5 cheap peanut butter, and 0 expensive peanut butter. 
-![screenshot b](./2,3b.png)
+
 
 
 **c)**
 The data used in this exercise is the same as the one in exercise a). The calculations made in this exercise are also the same, but with the additional constraint that the decision variables must be integers.The solution is 0 raw carrots, 9 baked potatoes, 0 wheat bread, 0 cheddar cheese, and 9 peanut butter. 
-![screenshot c](./2,3c.png)
+
 
 
 ### Exercise 2.4
@@ -257,3 +213,151 @@ To answer this question, the same formulation as above is used with some adjustm
 ![screenshot a1.2](./2,5b.png)
 
 As before, the integrated solver of excel (with the adjustments above) is used to solve this problem. As can be seen, the resulting objective value is 63. So the schedule that minimizes the sum of absolute differences between the demanded and scheduled amount of workers has an outcome of 63.
+
+
+
+### Appendix
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+my_tbl <- tibble::tribble(
+       ~Model, ~R.2, ~P,
+  "lm(total~expend)",0.145, 0.006,
+  "lm(total~ratio)",0.007 , 0.575,
+  "lm(total~salary)",0.194 , 0.001,
+  "lm(total~takers)",0.787 , 2e-16 
+  )
+
+my_tbl2 <- tibble::tribble(
+       ~Model, ~R.2, ~P,
+  "lm(total~takers+expend)",0.820, 0.006,
+  "lm(total~takers+ratio)", 0.8,   0.098,
+  "lm(total~takers+salary)",0.806 , 0.039  
+  )
+
+my_tbl3 <- tibble::tribble(
+       ~Model, ~R.2, ~P,
+  "lm(total~takers+expend+ratio)",0.823, 0.363,
+  "lm(total~takers+ratio)",0.820 , 0.853  
+  )
+
+require(knitr)
+kable(my_tbl, digits = 3, row.names = FALSE, align = "l",
+              caption = "Round 1")
+kable(my_tbl2, digits = 3, row.names = FALSE, align = "c",
+              caption = "Round 2")
+kable(my_tbl3, digits = 3, row.names = FALSE, align = "r",
+              caption = "Round 3")
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+my_tbl <- tibble::tribble(
+       ~Variables, ~R.2, ~P,
+  "takers",0.145, 0.006,
+  "expend",0.007 , 0.575,
+  "ratio",0.194 , 0.001,
+  "salary",0.787 , 2e-16 
+  )
+
+my_tbl2 <- tibble::tribble(
+       ~Variables, ~R.2, ~P,
+  "takers",0.820, 0.006,
+  "ratio", 0.8,   0.098,
+  "salary",0.806 , 0.039  
+  )
+
+
+require(knitr)
+kable(my_tbl, digits = 3, row.names = FALSE, align = "l",
+              caption = "Round 1")
+kable(my_tbl2, digits = 3, row.names = FALSE, align = "c",
+              caption = "Round 2")
+
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+my_tbl <- tibble::tribble(
+       ~Model, ~R.2, ~P,
+  "lm(total~expend)",0.145, 0.006,
+  "lm(total~ratio)",0.007 , 0.575,
+  "lm(total~salary)",0.194 , 0.001,
+  "lm(total~takers)",0.787 , 2e-16,
+  "lm(total~takers2)",0.658 , 9.28e-13
+  )
+
+
+my_tbl2 <- tibble::tribble(
+       ~Model, ~R.2, ~P,
+  "lm(total~takers+expend)",0.820, 0.006,
+  "lm(total~takers+ratio)", 0.8,   0.098,
+  "lm(total~takers+salary)",0.806 , 0.039,
+  "lm(total~takers+takers2)",0.873 , 8.96e-07
+  )
+
+
+my_tbl3 <- tibble::tribble(
+       ~Model, ~R.2, ~P,
+  "lm(total~takers+takers2+expend)",0.886, 0.029,
+  "lm(total~takers+takers2+ratio)",0.874 , 0.634,
+  "lm(total~takers+takers2+ratio)",0.886 , 0.029 
+  )
+
+my_tbl4 <- tibble::tribble(
+       ~Model, ~R.2, ~P,
+  "lm(total~takers+takers2+expend+ratio)",0.889, 0.294,
+  "lm(total~takers+takers2+expend+salary)",0.877 , 0.466
+  )
+
+
+require(knitr)
+kable(my_tbl, digits = 3, row.names = FALSE, align = "l",
+              caption = "Round 1")
+kable(my_tbl2, digits = 3, row.names = FALSE, align = "c",
+              caption = "Round 2")
+kable(my_tbl3, digits = 3, row.names = FALSE, align = "r",
+              caption = "Round 3")
+kable(my_tbl4, digits = 3, row.names = FALSE, align = "r",
+              caption = "Round 4")
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+my_tbl <- tibble::tribble(
+       ~Variables, ~R.2, ~P,
+  "takers",0.145, 0.006,
+  "expend",0.007 , 0.575,
+  "ratio",0.194 , 0.001,
+  "salary",0.787 , 2e-16,
+  "takers2",0.787 , 2e-16
+  )
+
+my_tbl2 <- tibble::tribble(
+       ~Variables, ~R.2, ~P,
+  "takers",0.145, 0.006,
+  "expend",0.007 , 0.575,
+  "ratio",0.194 , 0.001,
+  "takers2",0.787 , 2e-16
+  )
+my_tbl3 <- tibble::tribble(
+       ~Variables, ~R.2, ~P,
+  "takers",0.145, 0.006,
+  "expend",0.007 , 0.575,
+  "takers2",0.787 , 2e-16
+  )
+
+require(knitr)
+kable(my_tbl, digits = 3, row.names = FALSE, align = "l",
+              caption = "Round 1")
+kable(my_tbl2, digits = 3, row.names = FALSE, align = "c",
+              caption = "Round 2")
+kable(my_tbl3, digits = 3, row.names = FALSE, align = "c",
+              caption = "Round 3")
+
+```
+
+
+![screenshot a](./2,3a.png)
+![screenshot b](./2,3b.png)
+![screenshot c](./2,3c.png)
