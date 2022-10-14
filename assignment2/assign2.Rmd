@@ -1,7 +1,7 @@
 ---
 title: "Assignment 2"
 author: "Group 9. Rinus van Grunsven (10755373), Florens Douwes (11254483), Imad Lotfi (14651610)"
-date: "TBD 2022"
+date: "October 14, 2022"
 output: pdf_document
 fontsize: 11pt
 highlight: tango
@@ -239,7 +239,7 @@ integers.The solution is 0 raw carrots, 9 baked potatoes, 0 wheat bread,
 The transportation problem is a simple constraint problem. Letting the
 constraint to both that the demand should at least match the given
 demand, while the supply may at most be the given supply, the solver
-will solve the problem.
+will solve the problem. See appendix 2.4a.
 
 **b)** This model is an extension to the one in a). To incorporate the
 extra cost, we will add a binary variable matrix to act as a usage
@@ -252,7 +252,7 @@ limit is unlimited. If the path is not used, the maximum value allowed
 is zero, effectively disabling the path. And finally, in the objective
 the sum is taken from the using path matrix, multiplied by the path
 usage cost (100). So when a path is used, this usage cost is added to
-the objective.
+the objective. See appendix 2.4b.
 
 ### Exercise 2.5
 
