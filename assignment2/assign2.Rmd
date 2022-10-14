@@ -298,7 +298,10 @@ solver). As can be seen, the resulting objective value is 63. So the
 schedule that minimizes the sum of absolute differences between the
 demanded and scheduled amount of workers has an outcome of 63.
 
+
+
 ### Appendix
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 my_tbl <- tibble::tribble(
@@ -334,18 +337,18 @@ kable(my_tbl3, digits = 3, row.names = FALSE, align = "r",
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 my_tbl <- tibble::tribble(
-       ~Variables, ~R.2, ~P,
-  "takers",0.145, 0.006,
-  "expend",0.007 , 0.575,
-  "ratio",0.194 , 0.001,
-  "salary",0.787 , 2e-16 
+       ~Variables, ~P,
+  "takers", 2.61e-16,
+  "expend" , 0.674,
+  "ratio" , 0.266,
+  "salary" , 0.496     
   )
 
 my_tbl2 <- tibble::tribble(
-       ~Variables, ~R.2, ~P,
-  "takers",0.820, 0.006,
-  "ratio", 0.8,   0.098,
-  "salary",0.806 , 0.039  
+       ~Variables, ~P,
+  "takers", 2e-16,
+  "ratio",    0.0339,
+  "salary" , 0.0145  
   )
 
 
@@ -357,6 +360,7 @@ kable(my_tbl2, digits = 3, row.names = FALSE, align = "c",
 
 
 ```
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 my_tbl <- tibble::tribble(
@@ -406,26 +410,26 @@ kable(my_tbl4, digits = 3, row.names = FALSE, align = "r",
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 my_tbl <- tibble::tribble(
-       ~Variables, ~R.2, ~P,
-  "takers",0.145, 0.006,
-  "expend",0.007 , 0.575,
-  "ratio",0.194 , 0.001,
-  "salary",0.787 , 2e-16,
-  "takers2",0.787 , 2e-16
+       ~Variables, ~P,
+  "takers", 5.26e-11,
+  "expend" , 0.292,
+  "ratio" , 0.454,
+  "salary" , 0.968,
+  "takers2" , 8.58e-06
   )
 
 my_tbl2 <- tibble::tribble(
-       ~Variables, ~R.2, ~P,
-  "takers",0.145, 0.006,
-  "expend",0.007 , 0.575,
-  "ratio",0.194 , 0.001,
-  "takers2",0.787 , 2e-16
+       ~Variables, ~P,
+  "takers", 2.88e-11,
+  "expend", 0.0182,
+  "ratio",  0.2936,
+  "takers2" , 5.31e-06
   )
 my_tbl3 <- tibble::tribble(
-       ~Variables, ~R.2, ~P,
-  "takers",0.145, 0.006,
-  "expend",0.007 , 0.575,
-  "takers2",0.787 , 2e-16
+       ~Variables, ~P,
+  "takers", 8.30e-12,
+  "expend" , 0.0285,
+  "takers2" , 4.87e-06
   )
 
 require(knitr)
@@ -438,24 +442,31 @@ kable(my_tbl3, digits = 3, row.names = FALSE, align = "c",
 
 ```
 
-### Exercise 2.3
 
-**a)** ![screenshot a](./2,3a.png) **b)** ![screenshot b](./2,3b.png)
-**c)** ![screenshot c](./2,3c.png)
 
-### Exercise 2.4
+![screenshot 2.3a](./2,3a.png) 
 
-**a)** ![screenshot a](./2.4a.png) **b)** ![screenshot b](./2.4b.png)
 
-### Exercise 2.5
+![screenshot 2.3b](./2,3b.png)
 
-### 2.5a
 
-![screenshot a1.1](5a1.png){width="700"} ![screenshot
-a1.2](./2,5a2.png){width="418"}
 
-### 2.5b
+![screenshot 2.3c](./2,3c.png)
 
-![](5b.png){width="700"}
 
-![](5b2.png){width="418"}
+![screenshot 2.4a](./2.4a.png) 
+
+
+![screenshot 2.4b](./2.4b.png)
+
+
+![screenshot 2.5a](./5a1.png)
+
+![screenshot 2.5a2](./2,5a2.png)
+
+
+
+
+![screenshot 2.5b](./5b.png){width="700"}
+
+![screenshot 2.5b2](./5b2.png){width="418"}
