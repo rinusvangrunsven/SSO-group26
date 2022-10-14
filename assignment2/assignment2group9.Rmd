@@ -237,6 +237,8 @@ constraint to both that the demand should at least match the given
 demand, while the supply may at most be the given supply, the solver
 will solve the problem. See appendix figure 5.
 
+This results in an optimal cost of 460 units.
+
 **b)** This model is an extension to the one in a). To incorporate the
 extra cost, we will add a binary variable matrix to act as a usage
 constraint. This constraint will enable a large value (100000 in our
@@ -249,6 +251,10 @@ is zero, effectively disabling the path. And finally, in the objective
 the sum is taken from the using path matrix, multiplied by the path
 usage cost (100). So when a path is used, this usage cost is added to
 the objective. See appendix figure 5.
+
+While the parameters are the same as 2.4a, the optimal path is now shifted
+to use less paths, since paths now have an additional cost. The resulting
+cost is 995 units.
 
 ### Exercise 2.5
 
