@@ -32,29 +32,33 @@ $$
 $$
 Where $\overline X$ = expected project finish time (which is the average expected project finish time), $n$ = number of sample values, $s$ = sample standard deviation, and $t$ is the t-distribution.
 
-The calulations are shown in appendix Table 1. These give a confidence interval of [11,994; 12,183] (see appendix Figure 2). 
+The calulations are shown in appendix Table 1. These give a confidence interval of [13,859; 14,058] (see appendix Figure 2). 
 This means that we are 95% confident that the mean lies within this interval. So, if we would run this project several times and calculate the project finishing time, the mean would lie in this interval for 95% of the cases.
 
 **c)** 
 
-We start with the following null-hypothesis and alternative hypothesis:
-$$
-H_0: \text{expected project duration} \le 12
-$$
-$$
-H_0: \text{expected project duration} > 12
-$$
-
-Then, we can use a t-test. We are going to use a t-test since we concluded in question a) that the central limit theorem applies and the standard deviation is unknown (see slide 22, lecture 2).
+The probability that the expected project time takes longer is calculated in Excel with the function '=(COUNTIF(P24:P10023;">12")/10000)'. P24:P10023 are the 10000 expected project durations. This results in a probability score of 0,5815 (is 58,15%). 
+The confidence interval is then calculated in the same way as described in exercise 3.3 b. The results are shown in appendix Figure 3. The 95\% confidence interval is thus: [14,037;14,244]
 
 
-The probability that an expected project time is calculated using the test statistic T:
+<!-- We start with the following null-hypothesis and alternative hypothesis: -->
+<!-- $$ -->
+<!-- H_0: \text{expected project duration} \le 12 -->
+<!-- $$ -->
+<!-- $$ -->
+<!-- H_0: \text{expected project duration} > 12 -->
+<!-- $$ -->
 
-$$
-T = \frac{\overline X - \mu}{\frac{s}{\sqrt{n}}}
-$$
-Where $\overline X$ = expected project finish time, $\mu$ = is the average expected project finish time, $s$ = the sample standard deviation, and $n$ = number of sample values. 
-Excel's calculation is shown in appendix Table 1. The T-value is then used to calculate the p-value (see appendix Table 1).The p-value is 0,362 and the confidence interval is [11,883; 12,076]. Since the p-value is not lower than 0,05, we conclude that there is not enough statistical evidence to reject $H_0$. This can also be checked by looking at the interval. 12 lies within that interval which also means that we can not reject $H_0$. 
+<!-- Then, we can use a t-test. We are going to use a t-test since we concluded in question a) that the central limit theorem applies and the standard deviation is unknown (see slide 22, lecture 2). -->
+
+
+<!-- The probability that an expected project time is calculated using the test statistic T: -->
+
+<!-- $$ -->
+<!-- T = \frac{\overline X - \mu}{\frac{s}{\sqrt{n}}} -->
+<!-- $$ -->
+<!-- Where $\overline X$ = expected project finish time, $\mu$ = is the average expected project finish time, $s$ = the sample standard deviation, and $n$ = number of sample values.  -->
+<!-- Excel's calculation is shown in appendix Table 1. The T-value is then used to calculate the p-value (see appendix Table 1).The p-value is 0,362 and the confidence interval is [11,883; 12,076]. Since the p-value is not lower than 0,05, we conclude that there is not enough statistical evidence to reject $H_0$. This can also be checked by looking at the interval. 12 lies within that interval which also means that we can not reject $H_0$.  -->
 
 
 
