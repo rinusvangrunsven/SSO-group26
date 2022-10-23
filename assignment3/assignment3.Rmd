@@ -99,9 +99,9 @@ activities in de cells B24 until H10023. So for example, the calculation
 made in cell B20 is '=-(LN(RAND())/(1/\$B\$16))'. Realizations of finish
 time activities are calculated in cells I24 untill O10023. This is done
 by adding the duration of the activity with the duration of the former
-one. So for example, in cell J20 it is '=I20+C20'. However, in cell M20
-it is '=MAX(J20;K20)+F20'. This is because the activity five has to wait
-for both activity two as well as three to finish. The max makes sure
+one. So for example, for activity 2 it is the duration of activity 1 plus activity 2 (see appendix Table 2).
+However, for activity 5 it is the maximum duration of activity 2 and 3 plus the activity of activity 5 (see appendix Table 2).
+This is because the activity five has to wait for both activity two as well as three to finish. The max makes sure
 that the longest of those two activities gets chosen as activity five
 can only start once both previous activities are finished.
 
@@ -229,6 +229,24 @@ kable(my_tbl, digits = 3, row.names = FALSE, align = "l",
               caption = "Formulas used")
 ```
 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+my_tbl <- tibble::tribble(
+       ~Activity, ~Calclulation,
+  "1", '=B24',
+  "2" , '=I24+C24',
+  "3" , '=I24+D24',
+  "4" , '=I24+E24',
+  "5" , '=MAX(J24;K24)+F24',
+  "6" , '=MAX(K24;L24)+G24',
+  "7" , '=MAX(M24;N24)+H24'
+  
+  )
+
+require(knitr)
+kable(my_tbl, digits = 3, row.names = FALSE, align = "l",
+              caption = "Formulas used per activity")
+```
 ![Screenshot 3.2a2](./exercise3,2a2.png)
 
 ![Screenshot 3.2c](./exercise3,2c.png)
