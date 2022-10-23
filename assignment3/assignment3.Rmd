@@ -87,13 +87,11 @@ schedule above) are: [1, 2, 2, 1, 1, 1, 2, 2, 2, 1].\
 
 The project is calculated in Excel, as shown in Figure 1 of the
 appendix. The expected durations for each activity are displayed in
-columns B16 through H16.The inverse transformation method must be used
-as these are expected durations.All activity durations are independent
+columns B16 through H16. All activity durations are independent
 and distributed exponentially. In addition, the duration follows an
-exponential distribution with a parameter of 1/4 for the rate. The
-inverse transformation method for exponential distribution is thus
-required. The calculation in Excel is: '-ln(rand()) / "lambda"'. Lambda
-is the same the rate parameter so this will be 1/4. This function is
+exponential distribution with a parameter of 1/4. The inverse transformation method for exponential distribution must be used
+as these are expected durations. The calculation in Excel is: '-ln(rand()) / "lambda"'. Lambda
+is the same as the rate parameter so this will be 1/4. This function is
 used to calculate the realizations of activity durations for the seven
 activities in de cells B24 until H10023. So for example, the calculation
 made in cell B20 is '=-(LN(RAND())/(1/\$B\$16))'. Realizations of finish
@@ -110,7 +108,7 @@ can only start once both previous activities are finished.
 We can assume that the central limit theorem applies since the project
 has to be simulated 10000 times. The expected project finish time will
 be the average project finish time of those 10000 simulations. That
-calculation is shown in appendix Table 1 and the result is 12,089 (see
+calculation is shown in appendix Table 1 and the result is 13,958 (see
 appendix Figure 2).
 
 **b)**
