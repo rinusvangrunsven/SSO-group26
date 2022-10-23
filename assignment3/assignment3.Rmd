@@ -200,7 +200,7 @@ axis. The test is the pairwise t-test: $y(\pi) \le y(\pi') - \beta_{1-\alpha}
 12. If the value of the cell is TRUE, this means that the null-hypothesis is
 rejected. With this we can reject a few prices with just a simulation budget of
 900. The results of these tests are in screenshot 3.3d. With this, we can reject
-the prices 100, 100, 160, 170, 180.
+the prices 100, 110, 160, 170, 180.
 
 To continue, we execute step 4, which is to perform the rest of the testing
 budget on the remaining prices. This is 9100 / 9 = 1011 rows. The end result is
